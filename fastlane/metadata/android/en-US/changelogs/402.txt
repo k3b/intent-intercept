@@ -1,0 +1,1 @@
+* added capturing VIDEO_CAPTURE, IMAGE_CAPTURE(_SECURE), "zxing:" uri-s

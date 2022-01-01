@@ -18,6 +18,7 @@
         <activity
             android:name="uk.co.ashtonbrsc.intentexplode.Explode"
             android:label="@string/app_name"
+            android:exported="true"
             android:windowSoftInputMode="stateUnchanged" >
 			
 			<!-- matching any given mime type -->
@@ -79,6 +80,7 @@
                 <data android:scheme="smsto" />
                 <data android:scheme="mms" />
                 <data android:scheme="mmsto" />
+                <data android:scheme="zxing" />
                 <data android:scheme="spotify" />
                 <data android:scheme="tel" />
                 <data android:scheme="voicemail" />
@@ -119,6 +121,7 @@
                 <data android:scheme="smsto" />
                 <data android:scheme="mms" />
                 <data android:scheme="mmsto" />
+                <data android:scheme="zxing" />
                 <data android:scheme="spotify" />
                 <data android:scheme="tel" />
                 <data android:scheme="voicemail" />
@@ -218,7 +221,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name="uk.co.ashtonbrsc.intentexplode.StartupActivity" >
+        <activity android:name="uk.co.ashtonbrsc.intentexplode.StartupActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
