@@ -16,8 +16,9 @@ android {
         // 4.0.0 (400) 2021-05-27. Dropped android-2.1-4.1 Support. Works with Android 4.2 and newer (including android-10)
         // 4.0.1 (401) 2021-08-08. added android.media.action.VIDEO_CAPTURE IMAGE_CAPTURE IMAGE_CAPTURE_SECURE
         // 4.0.2 (402) 2022-01-01. added capturing VIEW "zxing:...." uri-s
-        versionCode 402
-        versionName "4.0.2"
+        // 4.0.3 (403) 2022-04-25. added OPENABLE category (by the-blank-x)
+        versionCode 403
+        versionName "4.0.3"
     }
     buildTypes {
         release {
