@@ -18,10 +18,14 @@ particular intent.
 
 Some details of the intent can be edited before resending it.
 
+---
+
 Intent Intercept is available here:
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="available on F-Droid app store" width="200" >](https://f-droid.org/packages/de.k3b.android.intentintercept/)<br/>
 [<img src="https://github.com/k3b/intent-intercept/raw/master/app/src/debug/res/drawable/QR_CODE_URL_intent-intercept@fdroid.png" alt="available on F-Droid app store" height="200" width="200">](https://f-droid.org/packages/de.k3b.android.intentintercept/)
+
+---
 
 ## Requirements
 
