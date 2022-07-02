@@ -224,6 +224,16 @@
                 <category android:name="android.intent.category.SELECTED_ALTERNATIVE"/>
             </intent-filter>
 
+            <intent-filter> <!-- Required for some file managers -->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:host="*" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern="/external/file/.*" />
+            </intent-filter>
+
         </activity>
         <activity android:name="uk.co.ashtonbrsc.intentexplode.StartupActivity" android:exported="true" >
             <intent-filter>
