@@ -1,1 +1,1 @@
---- todo ---
+Added Support for some native filemanagers (i.e. Samsung)
