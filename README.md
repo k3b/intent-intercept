@@ -7,7 +7,15 @@ This app is forked from https://github.com/intrications/intent-intercept which i
 
 Summary: View inter-app communication
 
-Description:
+## Example usage of IntentIntercept:
+
+* Open a photo-gallery-app (or a filemanager-app), select one photo and press "Edit" from toolbar or context-menu.
+* -> A pop-up openes where you can choose which app to use to edit the photo with.
+* choose "IntentIntercept" as "Editor"
+* -> IntentIntercept displays the details used to "edit" the selected photo.
+
+## Description:
+
 This app attempts to intercept as many intents as possible in order to examine
 their contents. This helps when trying to develop an app that reacts to a
 particular intent.
