@@ -28,6 +28,7 @@
     <string name="extra_item_type_name_title">Class: </string>
     <string name="extra_item_key_title">Key: </string>
     <string name="extra_item_value_title">Value: </string>
+    <string name="extra_item_value_title_unescaped">Value (decoded):</string>
     <string name="extra_item_type_name_list">List:</string>
     <string name="error_extracting_extras">Error extracting Extras</string>
     <string name="last_result_code_title">resultCode:</string>

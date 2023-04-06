@@ -44,7 +44,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,10 +120,11 @@ public class Explode extends AppCompatActivity {
 
     private ShareActionProvider shareActionProvider;
 
-    private EditText action;
-    private EditText data;
-    private EditText type;
-    private EditText uri;
+    private EditText edAction;
+    private TextView lblData;
+    private EditText edData;
+    private EditText edType;
+    private EditText edUri;
 
     private HistoryEditText mHistory = null;
 
@@ -257,8 +260,6 @@ public class Explode extends AppCompatActivity {
 
     /**
      * creates a clone of originalIntent and displays it for editing
-     *
-     * @param isVisible
      */
     private void showInitialIntent(boolean isVisible) {
         editableIntent = cloneIntent(this.originalIntent);
@@ -352,10 +353,7 @@ public class Explode extends AppCompatActivity {
                                         .append(bundle.get(key));
                             }
                             stringBuilder.append("\n}");
-                            addTextToLayout(getString(R.string.extra_item_value_title) + BLANK + stringBuilder
-                                            .toString(),
-                                    Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                                    extrasLayout);
+                            addValue(stringBuilder.toString());
                         } else if (extraItem.getClass().isArray()) {
                             // Item is an array, preview first 20 elements.
                             Object[] items = (Object[]) extraItem;
@@ -378,15 +376,9 @@ public class Explode extends AppCompatActivity {
                                         .append(items[items.length - 1]);
                             }
                             stringBuilder.append("\n}");
-                            addTextToLayout(getString(R.string.extra_item_value_title) + BLANK + stringBuilder
-                                            .toString(),
-                                    Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                                    extrasLayout);
+                            addValue(stringBuilder.toString());
                         } else {
-                            addTextToLayout(getString(R.string.extra_item_value_title) + BLANK + extraItem
-                                            .toString(),
-                                    Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                                    extrasLayout);
+                            addValue(extraItem.toString());
 
                         }
                     }
@@ -404,18 +396,48 @@ public class Explode extends AppCompatActivity {
         refreshUI();
     }
 
+    private void addValue(String value) {
+        addTextToLayout(getString(R.string.extra_item_value_title) + BLANK + value,
+                Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
+                extrasLayout);
+        if (value.contains("%")) {
+            // data may be encoded with "% ..." also add the decoded string
+            addTextToLayout(getString(R.string.extra_item_value_title_unescaped) + BLANK + urlDecode(urlDecode(value)),
+                    Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
+                    extrasLayout);
+        }
+    }
+
     /**
      * textViewToIgnore is not updated so current selected char in that textview will not change
      */
     private void showTextViewIntentData(TextView textViewToIgnore) {
         textWatchersActive = false;
-        if (textViewToIgnore != action) action.setText(editableIntent.getAction());
-        if ((textViewToIgnore != data) && (editableIntent.getDataString() != null)) {
-            data.setText(editableIntent.getDataString());
+        if (textViewToIgnore != edAction) edAction.setText(editableIntent.getAction());
+        String dataString = editableIntent.getDataString();
+        if ((textViewToIgnore != edData) && (dataString != null)) {
+            edData.setText(dataString);
+            if (dataString.contains("%")) {
+                // data may be encoded with "% ..." also add the decoded string
+                lblData.setText(getText(R.string.intent_data_title) + " (" +
+                                urlDecode(urlDecode(dataString)) + ")");
+            } else {
+                lblData.setText(R.string.intent_data_title);
+            }
+
         }
-        if (textViewToIgnore != type) type.setText(editableIntent.getType());
-        if (textViewToIgnore != uri) uri.setText(getUri(editableIntent));
+        if (textViewToIgnore != edType) edType.setText(editableIntent.getType());
+        if (textViewToIgnore != edUri) edUri.setText(getUri(editableIntent));
         textWatchersActive = true;
+    }
+
+    private String urlDecode(String fileName) {
+        try {
+            return URLDecoder.decode(fileName,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return fileName;
+        }
     }
 
     private ArrayList<String> getFlags() {
@@ -518,20 +540,21 @@ public class Explode extends AppCompatActivity {
     }
 
     private void setupVariables() {
-        action = findViewById(R.id.action_edit);
-        data = findViewById(R.id.data_edit);
-        type = findViewById(R.id.type_edit);
-        uri = findViewById(R.id.uri_edit);
+        edAction = findViewById(R.id.action_edit);
+        lblData = findViewById(R.id.lbl_data);
+        edData = findViewById(R.id.data_edit);
+        edType = findViewById(R.id.type_edit);
+        edUri = findViewById(R.id.uri_edit);
 
         mHistory = new HistoryEditText(this, new int[]{
                 R.id.cmd_edit_history,
                 R.id.cmd_data_history,
                 R.id.cmd_type_history,
                 R.id.cmd_uri_history},
-                action,
-                data,
-                type,
-                uri);
+                edAction,
+                edData,
+                edType,
+                edUri);
 
         categoriesHeader = findViewById(R.id.intent_categories_header);
         categoriesLayout = findViewById(R.id.intent_categories_layout);
@@ -549,13 +572,13 @@ public class Explode extends AppCompatActivity {
     }
 
     private void setupTextWatchers() {
-        action.addTextChangedListener(new IntentUpdateTextWatcher(action) {
+        edAction.addTextChangedListener(new IntentUpdateTextWatcher(edAction) {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 editableIntent.setAction(modifiedContent);
             }
         });
-        data.addTextChangedListener(new IntentUpdateTextWatcher(data) {
+        edData.addTextChangedListener(new IntentUpdateTextWatcher(edData) {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // setData clears type so we save it
@@ -563,7 +586,7 @@ public class Explode extends AppCompatActivity {
                 editableIntent.setDataAndType(Uri.parse(modifiedContent), savedType);
             }
         });
-        type.addTextChangedListener(new IntentUpdateTextWatcher(type) {
+        edType.addTextChangedListener(new IntentUpdateTextWatcher(edType) {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // setData clears type so we save it
@@ -571,13 +594,13 @@ public class Explode extends AppCompatActivity {
                 editableIntent.setDataAndType(Uri.parse(dataString), modifiedContent);
             }
         });
-        uri.addTextChangedListener(new IntentUpdateTextWatcher(uri) {
+        edUri.addTextChangedListener(new IntentUpdateTextWatcher(edUri) {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // no error yet so continue
                 editableIntent = cloneIntent(modifiedContent);
                 // this time must update all content since extras/flags may have been changed
-                showAllIntentData(uri);
+                showAllIntentData(edUri);
             }
         });
     }
@@ -738,9 +761,16 @@ public class Explode extends AppCompatActivity {
                             || thisObject instanceof Integer
                             || thisObject instanceof Boolean
                             || thisObject instanceof Uri) {
+                        String thisObjAsString = thisObject.toString();
                         result.append(getString(R.string.extra_item_value_title)).append(BLANK)
-                                .append(thisObject.toString())
+                                .append(thisObjAsString)
                                 .append(NEWLINE);
+                        if (thisObjAsString.contains("%")) {
+                            // data may be encoded with "% ..." also add the decoded string
+                            result.append(getString(R.string.extra_item_value_title_unescaped)).append(BLANK)
+                                    .append(urlDecode(urlDecode(thisObjAsString)))
+                                    .append(NEWLINE);
+                        }
                     } else if (thisObject instanceof ArrayList) {
                         result.append(getString(R.string.extra_item_type_name_list)).append(NEWLINE);
                         ArrayList<Object> thisArrayList = (ArrayList<Object>) thisObject;
