@@ -1,1 +1,4 @@
---- todo ---
+url-encoded values will also be displayd as decoded text
+added Storage Access Framework OPEN_DOCUMENT, CREATE_DOCUMENT, OPEN_DOCUMENT_TREE
+added APPLICATION_PREFERENCES, android.service.quicksettings.action.QS_TILE
+updated build to Gradle7.5

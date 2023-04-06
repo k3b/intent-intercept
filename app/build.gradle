@@ -19,8 +19,9 @@ android {
         // 4.0.2 (402) 2022-01-01. added capturing VIEW "zxing:...." uri-s
         // 4.0.3 (403) 2022-04-25. added OPENABLE category (by the-blank-x)
         // 4.0.4 (404) 2022-07-04. added Support for some native filemanagers (by SlipkHunter)
-        versionCode 404
-        versionName "4.0.4"
+        // 4.0.5 (405) 2023-04-06. added url-decoded; added Support for SAF (OPEN_DOCUMENT, CREATE_DOCUMENT, OPEN_DOCUMENT_TREE); Gradle7.5
+        versionCode 405
+        versionName '4.0.5'
     }
     buildTypes {
         release {
@@ -35,10 +36,16 @@ android {
     lintOptions {
         abortOnError false
     }
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle false
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    // Note: Updating these to latest versions also require java-1.8 and compileSdkVersion 33
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference:1.1.1'
 }
