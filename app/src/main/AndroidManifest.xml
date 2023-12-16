@@ -111,6 +111,7 @@
                 <data android:scheme="voicemail" />
                 <data android:scheme="view-source" />
                 <data android:scheme="sqlite" />
+		<data android:scheme="whatsapp" />
 
                 <!-- Intercept Google play links -->
                 <data android:scheme="market" />
