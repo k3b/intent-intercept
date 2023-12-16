@@ -111,12 +111,16 @@
                 <data android:scheme="voicemail" />
                 <data android:scheme="view-source" />
                 <data android:scheme="sqlite" />
-		<data android:scheme="whatsapp" />
 
                 <!-- Intercept Google play links -->
                 <data android:scheme="market" />
                 <data android:scheme="store" />
                 <data android:scheme="android" />
+
+		 <!-- Intercept WhatsApp links -->
+                <data android:scheme="whatsapp"/>
+                <data android:scheme="whatsapp-sheet"/>
+                <data android:scheme="whatsapp-consumer"/>
             </intent-filter>
 			<!-- same scheme-intents but with mime (mime!=null) -->
             <intent-filter android:label="@string/intent_filter_label">
