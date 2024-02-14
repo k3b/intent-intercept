@@ -1,13 +1,13 @@
 language: android
 
 jdk:
-    - oraclejdk8
+    - oraclejdk17
 
 android:
   components:
     - tools # to get the new `repository-11.xml`
     - tools # to install Android SDK tools 25.1.x (x = 6 right now)
-    - android-29
+    - android-34
     - add-on
     - extra
 
@@ -22,7 +22,8 @@ before_install:
   - yes | sdkmanager "platforms;android-23"
   - yes | sdkmanager "platforms;android-28"
   - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "platforms;android-34"
 
 script:
-  - jdk_switcher use oraclejdk8
+  - jdk_switcher use oraclejdk17
   - ./gradlew assemble test
