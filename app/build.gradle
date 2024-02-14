@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 29
+        targetSdkVersion 34
 		
 		applicationId 'de.k3b.android.intentintercept'
 		
@@ -20,8 +20,9 @@ android {
         // 4.0.3 (403) 2022-04-25. added OPENABLE category (by the-blank-x)
         // 4.0.4 (404) 2022-07-04. added Support for some native filemanagers (by SlipkHunter)
         // 4.0.5 (405) 2023-04-06. added url-decoded; added Support for SAF (OPEN_DOCUMENT, CREATE_DOCUMENT, OPEN_DOCUMENT_TREE); Gradle7.5
-        versionCode 405
-        versionName '4.0.5'
+        // 4.0.6 (406) 2024-02-14. added whatsapp specific intents; build/Lib updates
+        versionCode 406
+        versionName '4.0.6'
     }
     buildTypes {
         release {
@@ -30,22 +31,25 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-    lintOptions {
-        abortOnError false
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     dependenciesInfo {
         includeInApk true
         includeInBundle false
+    }
+    namespace 'uk.co.ashtonbrsc.android.intentintercept'
+    lint {
+        abortOnError false
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    // Note: Updating these to latest versions also require java-1.8 and compileSdkVersion 33
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.preference:preference:1.1.1'
+    // Note: Updating these to latest versions also require compileSdkVersion 33
+    implementation 'androidx.preference:preference:1.2.1'
+
+    //  implementation 'androidx.appcompat:appcompat:1.6.0' // not compatible with minSdk 16
+    implementation 'androidx.appcompat:appcompat:1.5.1'
 }
