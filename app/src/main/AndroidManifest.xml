@@ -25,7 +25,7 @@
             android:exported="true"
             android:windowSoftInputMode="stateUnchanged" >
 			
-			<!-- matching any given mime type without url -->
+			<!-- Action matching any given mime type without url -->
             <intent-filter android:label="@string/intent_filter_label"
                 tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
@@ -39,6 +39,17 @@
                 <action android:name="android.intent.action.android.service.quicksettings.action.QS_TILE" />
                 <action android:name="android.intent.action.INSERT" />
 				<action android:name="com.android.camera.action.REVIEW" /><!-- Used by camera to view photo taken -->
+                <action android:name="android.provider.action.REVIEW" />
+                <action android:name="android.provider.action.REVIEW_SECURE" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+                <action android:name="android.intent.action.MEDIA_SEARCH" />
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.TEXT_OPEN_FROM_SEARCH" />
+                <action android:name="android.media.action.VIDEO_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+
                 <action android:name="android.media.action.VIDEO_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
@@ -50,7 +61,7 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
 			
-			<!-- same as above matching when no mime type is available (null) fixing https://github.com/intrications/intent-intercept/issues/42 -->			
+			<!-- Action matching same as above matching when no mime type is available (null) fixing https://github.com/intrications/intent-intercept/issues/42 -->
             <intent-filter android:label="@string/intent_filter_label"
                 tools:ignore="AppLinkUrlError" >
                 <action android:name="android.intent.action.VIEW" />
@@ -63,13 +74,28 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <action android:name="android.intent.action.android.service.quicksettings.action.QS_TILE" />
                 <action android:name="android.intent.action.INSERT" />
+                <action android:name="com.android.camera.action.REVIEW" /><!-- Used by camera to view photo taken -->
+                <action android:name="android.provider.action.REVIEW" />
+                <action android:name="android.provider.action.REVIEW_SECURE" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+                <action android:name="android.intent.action.MEDIA_SEARCH" />
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.TEXT_OPEN_FROM_SEARCH" />
+                <action android:name="android.media.action.VIDEO_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+
+                <action android:name="android.media.action.VIDEO_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
 			
-			<!-- scheme-intents without mime (mime==null) -->
+			<!-- Action matching with scheme-intents without mime (mime==null) -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -81,6 +107,21 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <action android:name="android.intent.action.android.service.quicksettings.action.QS_TILE" />
                 <action android:name="android.intent.action.INSERT" />
+                <action android:name="com.android.camera.action.REVIEW" /><!-- Used by camera to view photo taken -->
+                <action android:name="android.provider.action.REVIEW" />
+                <action android:name="android.provider.action.REVIEW_SECURE" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+                <action android:name="android.intent.action.MEDIA_SEARCH" />
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.TEXT_OPEN_FROM_SEARCH" />
+                <action android:name="android.media.action.VIDEO_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+
+                <action android:name="android.media.action.VIDEO_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
@@ -121,7 +162,7 @@
                 <data android:scheme="whatsapp-sheet"/>
                 <data android:scheme="whatsapp-consumer"/>
             </intent-filter>
-			<!-- same scheme-intents but with mime (mime!=null) -->
+			<!-- Action matching with scheme and mime same scheme-intents but with mime (mime!=null) -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -133,6 +174,21 @@
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <action android:name="android.intent.action.android.service.quicksettings.action.QS_TILE" />
                 <action android:name="android.intent.action.INSERT" />
+                <action android:name="com.android.camera.action.REVIEW" /><!-- Used by camera to view photo taken -->
+                <action android:name="android.provider.action.REVIEW" />
+                <action android:name="android.provider.action.REVIEW_SECURE" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+                <action android:name="android.intent.action.MEDIA_SEARCH" />
+                <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.TEXT_OPEN_FROM_SEARCH" />
+                <action android:name="android.media.action.VIDEO_PLAY_FROM_SEARCH" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <action android:name="android.media.action.VIDEO_CAMERA" />
+
+                <action android:name="android.media.action.VIDEO_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+                <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
@@ -170,7 +226,8 @@
 
                 <data android:mimeType="*/*" />
             </intent-filter>
-			
+
+            <!-- Stand alone Action without restrictions -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.PICK" />
                 <action android:name="android.media.action.VIDEO_CAPTURE" />
@@ -179,6 +236,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+            <!-- Action Send without restrictions -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.SEND" />
 
@@ -187,6 +246,8 @@
 
                 <data android:mimeType="*/*" />
             </intent-filter>
+
+            <!-- Action Sendto with mime */* -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.SENDTO" >
                 </action>
@@ -195,6 +256,8 @@
 
                 <data android:mimeType="*/*" />
             </intent-filter>
+
+            <!-- Action Sendto with schema -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.SENDTO" >
                 </action>
@@ -205,6 +268,8 @@
                 <data android:scheme="sms" />
                 <data android:scheme="smsto" />
             </intent-filter>
+
+            <!-- Action SEND_MULTIPLE with mime */* -->
             <intent-filter android:label="@string/intent_filter_label">
                 <action android:name="android.intent.action.SEND_MULTIPLE" >
                 </action>

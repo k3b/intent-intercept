@@ -1,1 +1,6 @@
---- todo ---
+This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2002) or later.
+
+Changes:
+
+Added missing MediaStore.java specific Intents (camera/music/video/search)
+

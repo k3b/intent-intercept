@@ -21,8 +21,9 @@ android {
         // 4.0.4 (404) 2022-07-04. added Support for some native filemanagers (by SlipkHunter)
         // 4.0.5 (405) 2023-04-06. added url-decoded; added Support for SAF (OPEN_DOCUMENT, CREATE_DOCUMENT, OPEN_DOCUMENT_TREE); Gradle7.5
         // 4.0.6 (406) 2024-02-14. added whatsapp specific intents; build/Lib updates
-        versionCode 406
-        versionName '4.0.6'
+        // 4.0.7 (407) 2025-06-22. added missing intents from https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-mainline-media-release/core/java/android/provider/MediaStore.java
+        versionCode 407
+        versionName '4.0.7'
     }
     buildTypes {
         release {
