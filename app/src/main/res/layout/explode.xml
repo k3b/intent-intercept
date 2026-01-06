@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="?android:attr/dividerHorizontal"
@@ -29,15 +30,17 @@
 				android:layout_alignParentTop="true"
                 android:text="@string/intent_action_title"/>
 
-			<ImageButton
-				android:id="@+id/cmd_edit_history"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_action"
-				android:visibility="gone"
-				android:background="@android:drawable/ic_menu_more" />
+            <ImageButton
+                android:id="@+id/cmd_edit_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_action"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expand_more"
+                android:visibility="gone"
+                app:tint="?android:textColorPrimary" />
 
 			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
 					android:id="@+id/action_edit"
@@ -64,14 +67,17 @@
 				android:layout_below="@+id/action_edit"
                 android:text="@string/intent_data_title" />
 
-			<ImageButton android:id="@+id/cmd_data_history"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_data"
-				android:visibility="gone"
-				android:background="@android:drawable/ic_menu_more"  />
+            <ImageButton
+                android:id="@+id/cmd_data_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_data"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expand_more"
+                android:visibility="gone"
+                app:tint="?android:textColorPrimary" />
 
 			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
 					android:id="@+id/data_edit"
@@ -95,14 +101,17 @@
 				android:layout_below="@+id/data_edit"
 				android:text="@string/intent_mime_type_title" />
 
-			<ImageButton android:id="@+id/cmd_type_history"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_type"
-				android:visibility="gone"
-				android:background="@android:drawable/ic_menu_more"  />
+            <ImageButton
+                android:id="@+id/cmd_type_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_type"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expand_more"
+                android:visibility="gone"
+                app:tint="?android:textColorPrimary" />
 			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
 					android:id="@+id/type_edit"
 					style="@style/EditTextNoSuggestion"
@@ -125,14 +134,17 @@
 				android:layout_below="@+id/type_edit"
                 android:text="@string/intent_uri_title" />
 
-			<ImageButton android:id="@+id/cmd_uri_history"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_uri"
-				android:visibility="gone"
-				android:background="@android:drawable/ic_menu_more"  />
+            <ImageButton
+                android:id="@+id/cmd_uri_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_uri"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expand_more"
+                android:visibility="gone"
+                app:tint="?android:textColorPrimary" />
 			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
 					android:id="@+id/uri_edit"
 					style="@style/EditTextNoSuggestion"
