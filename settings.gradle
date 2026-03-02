@@ -16,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-// else build may fail because of missing internetconnection
+// else build may fail because of missing internet connection
 // startParameter.offline=true
 
 include ':app'

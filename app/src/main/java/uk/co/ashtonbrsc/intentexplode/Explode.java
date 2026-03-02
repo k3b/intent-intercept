@@ -75,7 +75,7 @@ public class Explode extends AppCompatActivity {
     private static final String NEWLINE = "\n<br>";
     private static final String BLANK = " ";
 
-    private static final String NEWSEGMENT = NEWLINE + "------------" + NEWLINE;
+    private static final String NEW_SEGMENT = NEWLINE + "------------" + NEWLINE;
 
     private static final String BOLD_START = "<b><u>";
     private static final String BOLD_END_BLANK = "</u></b>" + BLANK;
@@ -452,7 +452,7 @@ public class Explode extends AppCompatActivity {
         return flagsStrings;
     }
 
-    private void checkAndShowMatchingActivites() {
+    private void checkAndShowMatchingActivities() {
 
         activitiesLayout.removeAllViews();
         PackageManager pm = getPackageManager();
@@ -561,9 +561,22 @@ public class Explode extends AppCompatActivity {
         flagsLayout = findViewById(R.id.intent_flags_layout);
         extrasLayout = findViewById(R.id.intent_extras_layout);
         activitiesHeader = findViewById(R.id.intent_matching_activities_header);
-        activitiesLayout = findViewById(R.id.intent_matchin_activities_layout);
+        activitiesLayout = findViewById(R.id.intent_matching_activities_layout);
         resendIntentButton = findViewById(R.id.resend_intent_button);
+        resendIntentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSendIntent(v);
+            }
+        });
+
         resetIntentButton = findViewById(R.id.reset_intent_button);
+        resetIntentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onResetIntent(v);
+            }
+        });
 
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -647,7 +660,7 @@ public class Explode extends AppCompatActivity {
         // || !intent.getType().equals(getIntent().getType())) {
         //
         // }
-        checkAndShowMatchingActivites();
+        checkAndShowMatchingActivities();
         if (shareActionProvider != null) {
             Intent share = createShareIntent();
             shareActionProvider.setShareIntent(share);
@@ -667,10 +680,10 @@ public class Explode extends AppCompatActivity {
         // k3b so intent can be reloaded using
         // Intent.parseUri("Intent:....", Intent.URI_INTENT_SCHEME)
         result.append(getUri(editableIntent))
-                .append(NEWSEGMENT);
+                .append(NEW_SEGMENT);
 
         appendIntentDetails(result, editableIntent, true)
-                .append(NEWSEGMENT);
+                .append(NEW_SEGMENT);
 
         PackageManager pm = getPackageManager();
         List<ResolveInfo> resolveInfo = pm.queryIntentActivities(
@@ -699,7 +712,7 @@ public class Explode extends AppCompatActivity {
 
         // support for onActivityResult
         if (this.lastResultCode != null) {
-            result.append(NEWSEGMENT);
+            result.append(NEW_SEGMENT);
             appendHeader(result, R.string.last_result_header_title);
             appendNameValue(result, R.string.last_result_code_title, this.lastResultCode);
 

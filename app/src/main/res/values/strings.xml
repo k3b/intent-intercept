@@ -32,4 +32,9 @@
     <string name="extra_item_type_name_list">List:</string>
     <string name="error_extracting_extras">Error extracting Extras</string>
     <string name="last_result_code_title">resultCode:</string>
+
+    <string name="cmd_edit_history_description">recent edit values</string>
+    <string name="cmd_data_history_description">recent data values</string>
+    <string name="cmd_type_history_description">recent type values</string>
+    <string name="cmd_uri_history_description">recent uri values</string>
 </resources>

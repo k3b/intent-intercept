@@ -9,8 +9,8 @@ Summary: View inter-app communication
 
 ## Example usage of IntentIntercept:
 
-* Open a photo-gallery-app (or a filemanager-app), select one photo and press "Edit" from toolbar or context-menu.
-* -> A pop-up openes where you can choose which app to use to edit the photo with.
+* Open a photo-gallery-app (or a file-manager-app), select one photo and press "Edit" from toolbar or context-menu.
+* -> A pop-up opens where you can choose which app to use to edit the photo with.
 * choose "IntentIntercept" as "Editor"
 * -> IntentIntercept displays the details used to "edit" the selected photo.
 
