@@ -19,8 +19,21 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp" >
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_action"
+            <!-- Layout
+                    action
+                    data
+                    type (mime)
+                    result
+                    calling_activity
+                    uri
+                    categories
+                    flags
+                    extras
+                    matching_activities
+            -->
+
+        <!-- action -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_action"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,9 +41,7 @@
 				android:layout_alignParentStart="true"
 				android:layout_alignParentTop="true"
                 android:text="@string/intent_action_title"/>
-
-			<ImageButton
-				android:id="@+id/cmd_edit_history"
+			<ImageButton android:id="@+id/cmd_edit_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -39,9 +50,7 @@
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_edit_history_description"
 				android:background="@android:drawable/ic_menu_more" />
-
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
-					android:id="@+id/action_edit"
+			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/action_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -52,9 +61,8 @@
 					android:layout_toStartOf="@id/cmd_edit_history"
 					android:hint="@string/no_value_text" />
 
-
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_data"
+        <!-- data -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_data"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +72,6 @@
 				android:maxLines="4"
 				android:layout_below="@+id/action_edit"
                 android:text="@string/intent_data_title" />
-
 			<ImageButton android:id="@+id/cmd_data_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -74,9 +81,7 @@
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_data_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
-					android:id="@+id/data_edit"
+			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/data_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -87,8 +92,8 @@
 				android:layout_toStartOf="@id/cmd_data_history"
 					android:hint="@string/no_value_text" />
 
-			<uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_type"
+        <!-- type (mime) -->
+			<uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_type"
 				style="@style/TextHeader"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -96,7 +101,6 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/data_edit"
 				android:text="@string/intent_mime_type_title" />
-
 			<ImageButton android:id="@+id/cmd_type_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -106,8 +110,7 @@
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_type_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
-					android:id="@+id/type_edit"
+			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/type_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -118,16 +121,58 @@
 				android:layout_toStartOf="@id/cmd_type_history"
 				android:hint="@string/no_value_text" />
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_uri"
+        <!-- result -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_result"
+                style="@style/TextHeader"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/type_edit"
+                android:text="@string/last_result_header_title" />
+            <uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/result_edit"
+                style="@style/EditTextNoSuggestion"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_result"
+                android:layout_toLeftOf="@id/cmd_type_history"
+                android:layout_toStartOf="@id/cmd_type_history"
+                android:hint="@string/no_value_text" />
+        <!-- calling_activity -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_calling_activity"
+                style="@style/TextHeader"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/result_edit"
+                android:text="@string/intent_calling_activity_title" />
+            <uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/calling_activity_edit"
+                style="@style/EditTextNoSuggestion"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lbl_calling_activity"
+                android:layout_toLeftOf="@id/cmd_type_history"
+                android:layout_toStartOf="@id/cmd_type_history"
+                android:hint="@string/no_value_text" />
+
+        <!-- uri -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_uri"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/type_edit"
+				android:layout_below="@+id/calling_activity_edit"
                 android:text="@string/intent_uri_title" />
-
 			<ImageButton android:id="@+id/cmd_uri_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -137,8 +182,7 @@
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_uri_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText
-					android:id="@+id/uri_edit"
+			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/uri_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -149,8 +193,8 @@
 				android:layout_toStartOf="@id/cmd_uri_history"
 				android:hint="@string/no_value_text" />
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-                android:id="@+id/intent_categories_header"
+        <!-- categories -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/intent_categories_header"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,9 +202,7 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/uri_edit"
                 android:text="@string/intent_categories_title" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/intent_categories_layout"
+            <androidx.appcompat.widget.LinearLayoutCompat android:id="@+id/intent_categories_layout"
                 style="@style/ListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,8 +211,8 @@
 				android:layout_below="@+id/intent_categories_header"
                 android:orientation="vertical" />
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_flags"
+        <!-- flags -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_flags"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,7 +220,6 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/intent_categories_layout"
                 android:text="@string/intent_flags_title" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/intent_flags_layout"
                 style="@style/ListLayout"
@@ -188,8 +229,8 @@
 				android:layout_below="@+id/lbl_flags"
                 android:layout_height="wrap_content" />
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-				android:id="@+id/lbl_extras"
+        <!-- extras -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_extras"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,7 +238,6 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/intent_flags_layout"
                 android:text="@string/intent_extras_title" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/intent_extras_layout"
                 style="@style/ListLayout"
@@ -208,8 +248,8 @@
 				android:layout_below="@+id/lbl_extras"
                 android:orientation="vertical" />
 
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView
-                android:id="@+id/intent_matching_activities_header"
+        <!-- matching_activities -->
+            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/intent_matching_activities_header"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,7 +257,6 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/intent_extras_layout"
                 android:text="@string/intent_matching_activities_title" />
-
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/intent_matching_activities_layout"
                 style="@style/ListLayout"

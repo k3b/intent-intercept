@@ -1,6 +1,10 @@
 This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2002) or later.
 
-Changes:
+new features:
+
+#40 if available: also show calling activity and activityResult on intent page
+
+technical minor changes:
 
 build: changed from gradle-8.0 to gradle-8.14.4
 build: com.android.application' version from 8.1.1 to 8.1.4

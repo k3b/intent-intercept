@@ -16,6 +16,7 @@ package uk.co.ashtonbrsc.intentexplode;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -124,6 +125,12 @@ public class Explode extends AppCompatActivity {
     private TextView lblData;
     private EditText edData;
     private EditText edType;
+
+    private TextView lblResult;
+    private EditText edResult;
+    private TextView lblCallingActivity;
+    private EditText edCallingActivity;
+
     private EditText edUri;
 
     private HistoryEditText mHistory = null;
@@ -428,6 +435,28 @@ public class Explode extends AppCompatActivity {
         }
         if (textViewToIgnore != edType) edType.setText(editableIntent.getType());
         if (textViewToIgnore != edUri) edUri.setText(getUri(editableIntent));
+
+        if (textViewToIgnore != edResult) {
+            String resultString = this.lastResultCode + " " + getUri(this.lastResultIntent);
+            int visible = (this.lastResultIntent != null) ? View.VISIBLE : View.GONE;
+            edResult.setVisibility(visible);
+            lblResult.setVisibility(visible);
+            edResult.setText(resultString);
+        }
+
+        if (textViewToIgnore != edCallingActivity) {
+            ComponentName lastCallingActivity = this.getLastCallingActivity();
+            String callingActivityString = null;
+            int visible = View.GONE;
+            if (lastCallingActivity != null) {
+                visible = View.VISIBLE;
+                callingActivityString = lastCallingActivity.flattenToShortString();
+            }
+            edCallingActivity.setVisibility(visible);
+            lblCallingActivity.setVisibility(visible);
+            edCallingActivity.setText(callingActivityString);
+        }
+
         textWatchersActive = true;
     }
 
@@ -546,6 +575,11 @@ public class Explode extends AppCompatActivity {
         edType = findViewById(R.id.type_edit);
         edUri = findViewById(R.id.uri_edit);
 
+        lblResult = findViewById(R.id.lbl_result);
+        edResult = findViewById(R.id.result_edit);
+        lblCallingActivity = findViewById(R.id.lbl_calling_activity);
+        edCallingActivity = findViewById(R.id.calling_activity_edit);
+
         mHistory = new HistoryEditText(this, new int[]{
                 R.id.cmd_edit_history,
                 R.id.cmd_data_history,
@@ -614,6 +648,24 @@ public class Explode extends AppCompatActivity {
                 editableIntent = cloneIntent(modifiedContent);
                 // this time must update all content since extras/flags may have been changed
                 showAllIntentData(edUri);
+            }
+        });
+        edResult.addTextChangedListener(new IntentUpdateTextWatcher(edResult) {
+            @Override
+            protected void onUpdateIntent(String modifiedContent) {
+                // no error yet so continue
+                editableIntent = cloneIntent(modifiedContent);
+                // this time must update all content since extras/flags may have been changed
+                showAllIntentData(edResult);
+            }
+        });
+        edCallingActivity.addTextChangedListener(new IntentUpdateTextWatcher(edCallingActivity) {
+            @Override
+            protected void onUpdateIntent(String modifiedContent) {
+                // no error yet so continue
+                editableIntent = cloneIntent(modifiedContent);
+                // this time must update all content since extras/flags may have been changed
+                showAllIntentData(edCallingActivity);
             }
         });
     }
@@ -718,6 +770,7 @@ public class Explode extends AppCompatActivity {
 
             if (this.lastResultIntent != null) {
                 appendIntentDetails(result, lastResultIntent, false);
+                showTextViewIntentData(null);
             }
         }
 
@@ -883,6 +936,50 @@ public class Explode extends AppCompatActivity {
 
     private static String getUri(Intent src) {
         return (src != null) ? src.toUri(Intent.URI_INTENT_SCHEME) : null;
+    }
+
+    private ComponentName toComponentName(Object o) {
+        ComponentName result = null;
+        if (o instanceof ComponentName) {
+            result = (ComponentName) o;
+        } else if (o != null) {
+            String string = o.toString();
+            if (string != null && !string.trim().isEmpty()) {
+                result = new ComponentName("?", string);
+            }
+        }
+        return result;
+    }
+
+    private ComponentName getLastCallingActivity() {
+        ComponentName result = toComponentName(this.getCallingActivity());
+        if (result == null) result = toComponentName(getExtra(getIntent(),"CALLING_ACTIVITY"));
+        if (result == null) result = toComponentName(this.getCallingPackage());
+        if (result == null) result = toComponentName(getExtra(getIntent(),"CALLING_PACKAGE"));;
+
+        return result;
+    }
+
+    /**
+     * @param intent where extras are searched
+     * @param  keySuffix last part of the extras-key
+     * @return intent.get("xxxx" + keySuffix)
+     */
+    private Object getExtra(Intent intent, String keySuffix) {
+        if (intent != null) {
+            final Bundle extrasMap = intent.getExtras();
+
+            if (extrasMap != null) {
+                for (String key : extrasMap.keySet()) {
+                    if (key != null) {
+                        if (key.endsWith(keySuffix)) {
+                            return extrasMap.get(key);
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private Intent cloneIntent(String intentUri) {

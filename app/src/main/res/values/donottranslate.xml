@@ -15,6 +15,7 @@
     <string name="intent_categories_title" translatable="false">CATEGORY:</string>
     <string name="intent_extras_title" translatable="false">EXTRAS:</string>
     <string name="last_result_header_title" translatable="false">onActivityResult:</string>
+    <string name="intent_calling_activity_title" translatable="false">Calling Activity:</string>
 
     <string name="pref_send_test_intent" translatable="false">sendTestIntent</string>
     <string name="pref_intercept_enabled" translatable="false">interceptEnabled</string>
