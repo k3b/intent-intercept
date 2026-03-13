@@ -1,4 +1,5 @@
 //   Copyright 2012-2014 Intrications (intrications.com)
+//   Copyright 2014-2026 k3b
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -27,7 +28,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -45,14 +45,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
@@ -71,16 +65,9 @@ import uk.co.ashtonbrsc.android.intentintercept.R;
  * shortcuts and the enabled/disabled state of interception.
  */
 public class Explode extends AppCompatActivity {
-    private static final String INTENT_EDITED = "intent_edited";
-    private static final int STANDARD_INDENT_SIZE_IN_DIP = 10;
-    private static final String NEWLINE = "\n<br>";
-    private static final String BLANK = " ";
 
-    private static final String NEW_SEGMENT = NEWLINE + "------------" + NEWLINE;
-
-    private static final String BOLD_START = "<b><u>";
-    private static final String BOLD_END_BLANK = "</u></b>" + BLANK;
-    private static final String BOLD_END_NL = "</u></b>" + NEWLINE;
+    static final int STANDARD_INDENT_SIZE_IN_DIP = 10;
+    static final String INTENT_EDITED = "intent_edited";
 
     private abstract class IntentUpdateTextWatcher implements TextWatcher {
         private final TextView textView;
@@ -166,66 +153,6 @@ public class Explode extends AppCompatActivity {
      */
     private boolean textWatchersActive;
 
-    private static final Map<Integer, String> FLAGS_MAP = new HashMap<Integer, String>() {
-        {
-            put(Intent.FLAG_GRANT_READ_URI_PERMISSION,
-                    "FLAG_GRANT_READ_URI_PERMISSION");
-            put(Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
-                    "FLAG_GRANT_WRITE_URI_PERMISSION");
-            put(Intent.FLAG_FROM_BACKGROUND,
-                    "FLAG_FROM_BACKGROUND");
-            put(Intent.FLAG_DEBUG_LOG_RESOLUTION,
-                    "FLAG_DEBUG_LOG_RESOLUTION");
-            put(Intent.FLAG_EXCLUDE_STOPPED_PACKAGES,
-                    "FLAG_EXCLUDE_STOPPED_PACKAGES");
-            put(Intent.FLAG_INCLUDE_STOPPED_PACKAGES,
-                    "FLAG_INCLUDE_STOPPED_PACKAGES");
-            put(Intent.FLAG_ACTIVITY_NO_HISTORY,
-                    "FLAG_ACTIVITY_NO_HISTORY");
-            put(Intent.FLAG_ACTIVITY_SINGLE_TOP,
-                    "FLAG_ACTIVITY_SINGLE_TOP");
-            put(Intent.FLAG_ACTIVITY_NEW_TASK,
-                    "FLAG_ACTIVITY_NEW_TASK");
-            put(Intent.FLAG_ACTIVITY_MULTIPLE_TASK,
-                    "FLAG_ACTIVITY_MULTIPLE_TASK");
-            put(Intent.FLAG_ACTIVITY_CLEAR_TOP,
-                    "FLAG_ACTIVITY_CLEAR_TOP");
-            put(Intent.FLAG_ACTIVITY_FORWARD_RESULT,
-                    "FLAG_ACTIVITY_FORWARD_RESULT");
-            put(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP,
-                    "FLAG_ACTIVITY_PREVIOUS_IS_TOP");
-            put(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS,
-                    "FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS");
-            put(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT,
-                    "FLAG_ACTIVITY_BROUGHT_TO_FRONT");
-            put(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED,
-                    "FLAG_ACTIVITY_RESET_TASK_IF_NEEDED");
-            put(Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY,
-                    "FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY");
-            put(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET,
-                    "FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET");
-            put(Intent.FLAG_ACTIVITY_NO_USER_ACTION,
-                    "FLAG_ACTIVITY_NO_USER_ACTION");
-            put(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT,
-                    "FLAG_ACTIVITY_REORDER_TO_FRONT");
-            put(Intent.FLAG_ACTIVITY_NO_ANIMATION,
-                    "FLAG_ACTIVITY_NO_ANIMATION");
-            put(Intent.FLAG_ACTIVITY_CLEAR_TASK,
-                    "FLAG_ACTIVITY_CLEAR_TASK");
-            put(Intent.FLAG_ACTIVITY_TASK_ON_HOME,
-                    "FLAG_ACTIVITY_TASK_ON_HOME");
-            put(Intent.FLAG_RECEIVER_REGISTERED_ONLY,
-                    "FLAG_RECEIVER_REGISTERED_ONLY");
-            put(Intent.FLAG_RECEIVER_REPLACE_PENDING,
-                    "FLAG_RECEIVER_REPLACE_PENDING");
-            put(Intent.FLAG_RECEIVER_FOREGROUND,
-                    "FLAG_RECEIVER_FOREGROUND");
-            put(0x08000000,
-                    "FLAG_RECEIVER_REGISTERED_ONLY_BEFORE_BOOT");
-            put(0x04000000, "FLAG_RECEIVER_BOOT_UPGRADE");
-        }
-    };
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,9 +170,9 @@ public class Explode extends AppCompatActivity {
     }
 
     private void rememberIntent(Intent original) {
-        this.originalIntent = getUri(original);
+        this.originalIntent = IntentHelper.getUri(original);
 
-        Intent copy = cloneIntent(this.originalIntent);
+        Intent copy = IntentHelper.cloneIntent(this.originalIntent, additionalExtras);
 
         final Bundle originalExtras = original.getExtras();
 
@@ -269,7 +196,7 @@ public class Explode extends AppCompatActivity {
      * creates a clone of originalIntent and displays it for editing
      */
     private void showInitialIntent(boolean isVisible) {
-        editableIntent = cloneIntent(this.originalIntent);
+        editableIntent = IntentHelper.cloneIntent(this.originalIntent, additionalExtras);
 
         editableIntent.setComponent(null);
 
@@ -304,7 +231,7 @@ public class Explode extends AppCompatActivity {
         }
 
         flagsLayout.removeAllViews();
-        ArrayList<String> flagsStrings = getFlags();
+        ArrayList<String> flagsStrings = IntentHelper.getFlags(editableIntent);
         if (!flagsStrings.isEmpty()) {
             for (String thisFlagString : flagsStrings) {
                 addTextToLayout(thisFlagString, Typeface.NORMAL, flagsLayout);
@@ -329,11 +256,14 @@ public class Explode extends AppCompatActivity {
 
                         addTextToLayout("" + count, Typeface.BOLD, extrasLayout);
 
-                        addTextToLayout(getString(R.string.extra_item_type_name_title) + BLANK + extraItemTypeName,
+                        addTextToLayout(getString(R.string.extra_item_type_name_title)
+                                        + IntentFormatter.BLANK + extraItemTypeName,
                                 Typeface.ITALIC,
                                 STANDARD_INDENT_SIZE_IN_DIP, extrasLayout);
 
-                        addTextToLayout(getString(R.string.extra_item_key_title) + BLANK + extraKey, Typeface.ITALIC,
+                        addTextToLayout(getString(R.string.extra_item_key_title)
+                                        + IntentFormatter.BLANK + extraKey,
+                                Typeface.ITALIC,
                                 STANDARD_INDENT_SIZE_IN_DIP, extrasLayout);
 
                         if (extraItem instanceof ArrayList) {
@@ -346,7 +276,7 @@ public class Explode extends AppCompatActivity {
                                         extrasLayout);
                             }
                         } else if (extraItem instanceof Bitmap) {
-                            addBitmapToLayout(getString(R.string.extra_item_value_title) + BLANK,
+                            addBitmapToLayout(getString(R.string.extra_item_value_title) + IntentFormatter.BLANK,
                                     Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
                                     (Bitmap) extraItem, extrasLayout);
                         } else if (extraItem instanceof Bundle) {
@@ -404,12 +334,12 @@ public class Explode extends AppCompatActivity {
     }
 
     private void addValue(String value) {
-        addTextToLayout(getString(R.string.extra_item_value_title) + BLANK + value,
+        addTextToLayout(getString(R.string.extra_item_value_title) + IntentFormatter.BLANK + value,
                 Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
                 extrasLayout);
         if (value.contains("%")) {
             // data may be encoded with "% ..." also add the decoded string
-            addTextToLayout(getString(R.string.extra_item_value_title_unescaped) + BLANK + urlDecode(urlDecode(value)),
+            addTextToLayout(getString(R.string.extra_item_value_title_unescaped) + IntentFormatter.BLANK + IntentHelper.urlDecode(IntentHelper.urlDecode(value)),
                     Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
                     extrasLayout);
         }
@@ -427,17 +357,17 @@ public class Explode extends AppCompatActivity {
             if (dataString.contains("%")) {
                 // data may be encoded with "% ..." also add the decoded string
                 lblData.setText(getText(R.string.intent_data_title) + " (" +
-                                urlDecode(urlDecode(dataString)) + ")");
+                                IntentHelper.urlDecode(IntentHelper.urlDecode(dataString)) + ")");
             } else {
                 lblData.setText(R.string.intent_data_title);
             }
 
         }
         if (textViewToIgnore != edType) edType.setText(editableIntent.getType());
-        if (textViewToIgnore != edUri) edUri.setText(getUri(editableIntent));
+        if (textViewToIgnore != edUri) edUri.setText(IntentHelper.getUri(editableIntent));
 
         if (textViewToIgnore != edResult) {
-            String resultString = this.lastResultCode + " " + getUri(this.lastResultIntent);
+            String resultString = this.lastResultCode + " " + IntentHelper.getUri(this.lastResultIntent);
             int visible = (this.lastResultIntent != null) ? View.VISIBLE : View.GONE;
             edResult.setVisibility(visible);
             lblResult.setVisibility(visible);
@@ -445,7 +375,7 @@ public class Explode extends AppCompatActivity {
         }
 
         if (textViewToIgnore != edCallingActivity) {
-            ComponentName lastCallingActivity = this.getLastCallingActivity();
+            ComponentName lastCallingActivity = IntentHelper.getLastCallingActivity(this);
             String callingActivityString = null;
             int visible = View.GONE;
             if (lastCallingActivity != null) {
@@ -458,27 +388,6 @@ public class Explode extends AppCompatActivity {
         }
 
         textWatchersActive = true;
-    }
-
-    private String urlDecode(String fileName) {
-        try {
-            return URLDecoder.decode(fileName,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return fileName;
-        }
-    }
-
-    private ArrayList<String> getFlags() {
-        ArrayList<String> flagsStrings = new ArrayList<>();
-        int flags = editableIntent.getFlags();
-        Set<Entry<Integer, String>> set = FLAGS_MAP.entrySet();
-        for (Entry<Integer, String> thisFlag : set) {
-            if ((flags & thisFlag.getKey()) != 0) {
-                flagsStrings.add(thisFlag.getValue());
-            }
-        }
-        return flagsStrings;
     }
 
     private void checkAndShowMatchingActivities() {
@@ -645,7 +554,7 @@ public class Explode extends AppCompatActivity {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // no error yet so continue
-                editableIntent = cloneIntent(modifiedContent);
+                editableIntent = IntentHelper.cloneIntent(modifiedContent, additionalExtras);
                 // this time must update all content since extras/flags may have been changed
                 showAllIntentData(edUri);
             }
@@ -654,7 +563,7 @@ public class Explode extends AppCompatActivity {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // no error yet so continue
-                editableIntent = cloneIntent(modifiedContent);
+                editableIntent = IntentHelper.cloneIntent(modifiedContent, additionalExtras);
                 // this time must update all content since extras/flags may have been changed
                 showAllIntentData(edResult);
             }
@@ -663,7 +572,7 @@ public class Explode extends AppCompatActivity {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
                 // no error yet so continue
-                editableIntent = cloneIntent(modifiedContent);
+                editableIntent = IntentHelper.cloneIntent(modifiedContent, additionalExtras);
                 // this time must update all content since extras/flags may have been changed
                 showAllIntentData(edCallingActivity);
             }
@@ -677,7 +586,7 @@ public class Explode extends AppCompatActivity {
 
     public void onSendIntent(View v) {
         try {
-            Intent startIntent = cloneIntent(getUri(editableIntent));
+            Intent startIntent = IntentHelper.cloneIntent(IntentHelper.getUri(editableIntent), additionalExtras);
             startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             startActivityForResult(Intent.createChooser(startIntent, resendIntentButton.getText()), 1);
@@ -700,7 +609,7 @@ public class Explode extends AppCompatActivity {
 
     private void copyIntentDetails() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        clipboard.setPrimaryClip(ClipData.newPlainText("Intent Details", getIntentDetailsString()));
+        clipboard.setPrimaryClip(ClipData.newPlainText("Intent Details", IntentFormatter.getIntentDetailsString(this, editableIntent, lastResultCode, lastResultIntent)));
         Toast.makeText(this, R.string.message_intent_details_copied_to_clipboard,
                 Toast.LENGTH_SHORT).show();
     }
@@ -717,154 +626,15 @@ public class Explode extends AppCompatActivity {
             Intent share = createShareIntent();
             shareActionProvider.setShareIntent(share);
         }
+        showTextViewIntentData(null);
+
     }
 
     private Intent createShareIntent() {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType(getString(R.string.mime_type_text_plain));
-        share.putExtra(Intent.EXTRA_TEXT, getIntentDetailsString());
+        share.putExtra(Intent.EXTRA_TEXT, IntentFormatter.getIntentDetailsString(this, editableIntent, lastResultCode, lastResultIntent));
         return share;
-    }
-
-    private Spanned getIntentDetailsString() {
-        StringBuilder result = new StringBuilder();
-
-        // k3b so intent can be reloaded using
-        // Intent.parseUri("Intent:....", Intent.URI_INTENT_SCHEME)
-        result.append(getUri(editableIntent))
-                .append(NEW_SEGMENT);
-
-        appendIntentDetails(result, editableIntent, true)
-                .append(NEW_SEGMENT);
-
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> resolveInfo = pm.queryIntentActivities(
-                editableIntent, 0);
-
-        // Remove Intent Intercept from matching activities
-        int numberOfMatchingActivities = resolveInfo.size() - 1;
-
-        appendHeader(result, R.string.intent_matching_activities_title);
-        if (numberOfMatchingActivities < 1) {
-            appendHeader(result, R.string.no_items);
-        } else {
-            for (int i = 0; i <= numberOfMatchingActivities; i++) {
-                ResolveInfo info = resolveInfo.get(i);
-                ActivityInfo activityinfo = info.activityInfo;
-                if (!activityinfo.packageName.equals(getPackageName())) {
-                    result.append(BOLD_START).append(activityinfo.loadLabel(pm))
-                            .append(BOLD_END_BLANK).append(" (")
-                            .append(activityinfo.packageName)
-                            .append(" - ")
-                            .append(activityinfo.name)
-                            .append(")").append(NEWLINE);
-                }
-            }
-        }
-
-        // support for onActivityResult
-        if (this.lastResultCode != null) {
-            result.append(NEW_SEGMENT);
-            appendHeader(result, R.string.last_result_header_title);
-            appendNameValue(result, R.string.last_result_code_title, this.lastResultCode);
-
-            if (this.lastResultIntent != null) {
-                appendIntentDetails(result, lastResultIntent, false);
-                showTextViewIntentData(null);
-            }
-        }
-
-        return Html.fromHtml(result.toString());
-    }
-
-    private StringBuilder appendIntentDetails(StringBuilder result, Intent intent, boolean detailed) {
-        if (detailed) appendNameValue(result, R.string.intent_action_title, intent.getAction());
-
-        appendNameValue(result, R.string.intent_data_title, intent.getData());
-        appendNameValue(result, R.string.intent_mime_type_title, intent.getType());
-        appendNameValue(result, R.string.intent_uri_title, getUri(intent));
-
-        Set<String> categories = intent.getCategories();
-        if ((categories != null) && (categories.size() > 0)) {
-            appendHeader(result, R.string.intent_categories_title);
-            for (String category : categories) {
-                result.append(category).append(NEWLINE);
-            }
-        }
-
-        if (detailed) {
-            appendHeader(result, R.string.intent_flags_title);
-            ArrayList<String> flagsStrings = getFlags();
-            if (!flagsStrings.isEmpty()) {
-                for (String thisFlagString : flagsStrings) {
-                    result.append(thisFlagString).append(NEWLINE);
-                }
-            } else {
-                result.append(getString(R.string.no_items)).append(NEWLINE);
-            }
-        }
-
-        try {
-            Bundle intentBundle = intent.getExtras();
-            if (intentBundle != null) {
-                Set<String> keySet = intentBundle.keySet();
-                appendHeader(result, R.string.intent_extras_title);
-                int count = 0;
-
-                for (String key : keySet) {
-                    count++;
-                    Object thisObject = intentBundle.get(key);
-                    result.append(BOLD_START).append(count).append(BOLD_END_BLANK);
-                    String thisClass = thisObject.getClass().getName();
-                    if (thisClass != null) {
-                        result.append(getString(R.string.extra_item_type_name_title)).append(BLANK)
-                                .append(thisClass).append(NEWLINE);
-                    }
-                    result.append(getString(R.string.extra_item_key_title)).append(BLANK)
-                            .append(key).append(NEWLINE);
-
-                    if (thisObject instanceof String || thisObject instanceof Long
-                            || thisObject instanceof Integer
-                            || thisObject instanceof Boolean
-                            || thisObject instanceof Uri) {
-                        String thisObjAsString = thisObject.toString();
-                        result.append(getString(R.string.extra_item_value_title)).append(BLANK)
-                                .append(thisObjAsString)
-                                .append(NEWLINE);
-                        if (thisObjAsString.contains("%")) {
-                            // data may be encoded with "% ..." also add the decoded string
-                            result.append(getString(R.string.extra_item_value_title_unescaped)).append(BLANK)
-                                    .append(urlDecode(urlDecode(thisObjAsString)))
-                                    .append(NEWLINE);
-                        }
-                    } else if (thisObject instanceof ArrayList) {
-                        result.append(getString(R.string.extra_item_type_name_list)).append(NEWLINE);
-                        ArrayList<Object> thisArrayList = (ArrayList<Object>) thisObject;
-                        for (Object thisArrayListObject : thisArrayList) {
-                            result.append(thisArrayListObject.toString()).append(NEWLINE);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            appendHeader(result, R.string.intent_extras_title);
-            result.append("<font color='red'>").append(getString(R.string.error_extracting_extras)).append("</font>").append(NEWLINE);
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    private StringBuilder appendNameValue(StringBuilder result, int keyId, Object value) {
-        if (value != null) {
-            result.append(BOLD_START).append(getString(keyId)).append(BOLD_END_BLANK)
-                    .append(value).append(NEWLINE);
-        }
-        return result;
-    }
-
-    private StringBuilder appendHeader(StringBuilder result, int keyId) {
-        result.append(BOLD_START).append(getString(keyId)).append(BOLD_END_NL);
-        return result;
     }
 
 
@@ -926,6 +696,7 @@ public class Explode extends AppCompatActivity {
         this.lastResultIntent = data;
         super.onActivityResult(requestCode, resultCode, data);
         setResult(resultCode, data);
+
         refreshUI();
 
         Uri uri = (data == null) ? null : data.getData();
@@ -934,69 +705,4 @@ public class Explode extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
     }
 
-    private static String getUri(Intent src) {
-        return (src != null) ? src.toUri(Intent.URI_INTENT_SCHEME) : null;
-    }
-
-    private ComponentName toComponentName(Object o) {
-        ComponentName result = null;
-        if (o instanceof ComponentName) {
-            result = (ComponentName) o;
-        } else if (o != null) {
-            String string = o.toString();
-            if (string != null && !string.trim().isEmpty()) {
-                result = new ComponentName("?", string);
-            }
-        }
-        return result;
-    }
-
-    private ComponentName getLastCallingActivity() {
-        ComponentName result = toComponentName(this.getCallingActivity());
-        if (result == null) result = toComponentName(getExtra(getIntent(),"CALLING_ACTIVITY"));
-        if (result == null) result = toComponentName(this.getCallingPackage());
-        if (result == null) result = toComponentName(getExtra(getIntent(),"CALLING_PACKAGE"));;
-
-        return result;
-    }
-
-    /**
-     * @param intent where extras are searched
-     * @param  keySuffix last part of the extras-key
-     * @return intent.get("xxxx" + keySuffix)
-     */
-    private Object getExtra(Intent intent, String keySuffix) {
-        if (intent != null) {
-            final Bundle extrasMap = intent.getExtras();
-
-            if (extrasMap != null) {
-                for (String key : extrasMap.keySet()) {
-                    if (key != null) {
-                        if (key.endsWith(keySuffix)) {
-                            return extrasMap.get(key);
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private Intent cloneIntent(String intentUri) {
-        if (intentUri != null) {
-            try {
-                Intent clone = Intent.parseUri(intentUri, Intent.URI_INTENT_SCHEME);
-
-                // bugfix #14: restore extras that are lost in the intent <-> string conversion
-                if (additionalExtras != null) {
-                    clone.putExtras(additionalExtras);
-                }
-
-                return clone;
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
 }
