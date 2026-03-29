@@ -54,6 +54,12 @@
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
+                <!-- intent-intercept/issues/42 https://developer.android.com/reference/android/speech/RecognizerInt-->
+                <action android:name="ACTION_GET_LANGUAGE_DETAILS" />
+                <action android:name="ACTION_RECOGNIZE_SPEECH" />
+                <action android:name="ACTION_VOICE_SEARCH_HANDS_FREE" />
+                <action android:name="ACTION_WEB_SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -90,6 +96,12 @@
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
+                <!-- intent-intercept/issues/42 https://developer.android.com/reference/android/speech/RecognizerInt-->
+                <action android:name="ACTION_GET_LANGUAGE_DETAILS" />
+                <action android:name="ACTION_RECOGNIZE_SPEECH" />
+                <action android:name="ACTION_VOICE_SEARCH_HANDS_FREE" />
+                <action android:name="ACTION_WEB_SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -122,6 +134,12 @@
                 <action android:name="android.media.action.VIDEO_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
+
+                <!-- intent-intercept/issues/42 https://developer.android.com/reference/android/speech/RecognizerInt-->
+                <action android:name="ACTION_GET_LANGUAGE_DETAILS" />
+                <action android:name="ACTION_RECOGNIZE_SPEECH" />
+                <action android:name="ACTION_VOICE_SEARCH_HANDS_FREE" />
+                <action android:name="ACTION_WEB_SEARCH" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
@@ -190,6 +208,12 @@
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
 
+                <!-- intent-intercept/issues/42 https://developer.android.com/reference/android/speech/RecognizerInt-->
+                <action android:name="ACTION_GET_LANGUAGE_DETAILS" />
+                <action android:name="ACTION_RECOGNIZE_SPEECH" />
+                <action android:name="ACTION_VOICE_SEARCH_HANDS_FREE" />
+                <action android:name="ACTION_WEB_SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -233,6 +257,12 @@
                 <action android:name="android.media.action.VIDEO_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
+
+                <!-- intent-intercept/issues/42 https://developer.android.com/reference/android/speech/RecognizerInt-->
+                <action android:name="ACTION_GET_LANGUAGE_DETAILS" />
+                <action android:name="ACTION_RECOGNIZE_SPEECH" />
+                <action android:name="ACTION_VOICE_SEARCH_HANDS_FREE" />
+                <action android:name="ACTION_WEB_SEARCH" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
