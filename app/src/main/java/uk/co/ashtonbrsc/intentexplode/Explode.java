@@ -20,14 +20,12 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -46,7 +44,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
@@ -153,10 +150,13 @@ public class Explode extends AppCompatActivity {
      */
     private boolean textWatchersActive;
 
+    private IntentFormatter guiFormatter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        this.guiFormatter = new IntentFormatterHtml(this);
         setContentView(R.layout.explode);
 
         rememberIntent(getIntent());
@@ -216,32 +216,19 @@ public class Explode extends AppCompatActivity {
         showTextViewIntentData(textViewToIgnore);
 
         categoriesLayout.removeAllViews();
-        Set<String> categories = editableIntent.getCategories();
-        if (categories != null) {
+        if (editableIntent.getCategories() != null) {
             categoriesHeader.setVisibility(View.VISIBLE);
-            for (String category : categories) {
-                TextView categoryTextView = new TextView(this);
-                categoryTextView.setText(category);
-                categoryTextView.setTextAppearance(this, R.style.TextFlags);
-                categoriesLayout.addView(categoryTextView);
-            }
+            addHtmlToLayout(guiFormatter.clr().appendCategories(editableIntent,false), categoriesLayout);
         } else {
             categoriesHeader.setVisibility(View.GONE);
-            // addTextToLayout("NONE", Typeface.NORMAL, categoriesLayout);
         }
 
         flagsLayout.removeAllViews();
-        ArrayList<String> flagsStrings = IntentHelper.getFlags(editableIntent);
-        if (!flagsStrings.isEmpty()) {
-            for (String thisFlagString : flagsStrings) {
-                addTextToLayout(thisFlagString, Typeface.NORMAL, flagsLayout);
-            }
-        } else {
-            addTextToLayout(getString(R.string.no_items), Typeface.NORMAL, flagsLayout);
-        }
+        addHtmlToLayout(guiFormatter.clr().appendFlags(editableIntent,false), flagsLayout);
 
         extrasLayout.removeAllViews();
         try {
+            addHtmlToLayout(guiFormatter.clr().appendExtras(editableIntent,false, false), flagsLayout);
 
             Bundle intentBundle = editableIntent.getExtras();
             if (intentBundle != null) {
@@ -251,78 +238,12 @@ public class Explode extends AppCompatActivity {
                 for (String extraKey : extraKeys) {
                     count++;
                     Object extraItem = intentBundle.get(extraKey);
-                    if (extraItem != null) {
-                        String extraItemTypeName = extraItem.getClass().getName();
-
-                        addTextToLayout("" + count, Typeface.BOLD, extrasLayout);
-
-                        addTextToLayout(getString(R.string.extra_item_type_name_title)
-                                        + IntentFormatter.BLANK + extraItemTypeName,
-                                Typeface.ITALIC,
-                                STANDARD_INDENT_SIZE_IN_DIP, extrasLayout);
-
-                        addTextToLayout(getString(R.string.extra_item_key_title)
-                                        + IntentFormatter.BLANK + extraKey,
-                                Typeface.ITALIC,
-                                STANDARD_INDENT_SIZE_IN_DIP, extrasLayout);
-
-                        if (extraItem instanceof ArrayList) {
-                            addTextToLayout(getString(R.string.extra_item_type_name_list), Typeface
-                                    .ITALIC, extrasLayout);
-                            ArrayList<?> thisArrayList = (ArrayList<?>) extraItem;
-                            for (Object thisArrayListObject : thisArrayList) {
-                                addTextToLayout(thisArrayListObject.toString(),
-                                        Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                                        extrasLayout);
-                            }
-                        } else if (extraItem instanceof Bitmap) {
-                            addBitmapToLayout(getString(R.string.extra_item_value_title) + IntentFormatter.BLANK,
+                    if (extraItem != null && extraItem instanceof Bitmap) {
+                        addBitmapToLayout(Html.fromHtml(guiFormatter.clr().appendExtra(count, extraKey, extraItem).toString()),
                                     Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
                                     (Bitmap) extraItem, extrasLayout);
-                        } else if (extraItem instanceof Bundle) {
-                            Bundle bundle = (Bundle) extraItem;
-                            StringBuilder stringBuilder = new StringBuilder("Bundle{");
-                            for (String key : bundle.keySet()) {
-                                stringBuilder
-                                        .append("\n ")
-                                        .append(key)
-                                        .append(": ")
-                                        .append(bundle.get(key));
-                            }
-                            stringBuilder.append("\n}");
-                            addValue(stringBuilder.toString());
-                        } else if (extraItem.getClass().isArray()) {
-                            // Item is an array, preview first 20 elements.
-                            Object[] items = (Object[]) extraItem;
-                            int max = Math.min(items.length, 20);
-                            StringBuilder stringBuilder = new StringBuilder(extraItem.getClass().getComponentType().getSimpleName());
-                            stringBuilder.append('[').append(items.length).append("]{");
-                            for (int i = 0; i < max; i++) {
-                                stringBuilder
-                                        .append("\n ")
-                                        .append(i)
-                                        .append(": ")
-                                        .append(items[i]);
-                            }
-                            if (max < items.length) {
-                                // preview of the end of the array.
-                                stringBuilder
-                                        .append("\n...\n ")
-                                        .append(items.length - 1)
-                                        .append(": ")
-                                        .append(items[items.length - 1]);
-                            }
-                            stringBuilder.append("\n}");
-                            addValue(stringBuilder.toString());
-                        } else {
-                            addValue(extraItem.toString());
-
-                        }
                     }
                 }
-            } else {
-                addTextToLayout(getString(R.string.no_items), Typeface.NORMAL,
-                        extrasLayout);
             }
         } catch (Exception e) {
             // TODO Should make this red to highlight error
@@ -331,18 +252,6 @@ public class Explode extends AppCompatActivity {
         }
 
         refreshUI();
-    }
-
-    private void addValue(String value) {
-        addTextToLayout(getString(R.string.extra_item_value_title) + IntentFormatter.BLANK + value,
-                Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                extrasLayout);
-        if (value.contains("%")) {
-            // data may be encoded with "% ..." also add the decoded string
-            addTextToLayout(getString(R.string.extra_item_value_title_unescaped) + IntentFormatter.BLANK + IntentHelper.urlDecode(IntentHelper.urlDecode(value)),
-                    Typeface.ITALIC, STANDARD_INDENT_SIZE_IN_DIP,
-                    extrasLayout);
-        }
     }
 
     /**
@@ -390,39 +299,7 @@ public class Explode extends AppCompatActivity {
         textWatchersActive = true;
     }
 
-    private void checkAndShowMatchingActivities() {
-
-        activitiesLayout.removeAllViews();
-        PackageManager pm = getPackageManager();
-        List<ResolveInfo> resolveInfo = pm.queryIntentActivities(
-                editableIntent, 0);
-
-        activitiesHeader.setText(getString(R.string.intent_matching_activities_title));
-
-        // Remove Intent Intercept from matching activities
-        int numberOfMatchingActivities = resolveInfo.size() - 1;
-
-        if (numberOfMatchingActivities < 1) {
-            resendIntentButton.setEnabled(false);
-            addTextToLayout(getString(R.string.no_items), Typeface.NORMAL, activitiesLayout);
-
-        } else {
-            resendIntentButton.setEnabled(true);
-            for (int i = 0; i <= numberOfMatchingActivities; i++) {
-                ResolveInfo info = resolveInfo.get(i);
-                ActivityInfo activityinfo = info.activityInfo;
-                if (!activityinfo.packageName.equals(getPackageName())) {
-                    addTextToLayout(activityinfo.loadLabel(pm) + " ("
-                                    + activityinfo.packageName + " - "
-                                    + activityinfo.name + ")", Typeface
-                                    .NORMAL,
-                            activitiesLayout);
-                }
-            }
-        }
-    }
-
-    private void addBitmapToLayout(String text, int typeface, int paddingLeft, Bitmap bitmap, LinearLayoutCompat linearLayout) {
+    private void addBitmapToLayout(CharSequence text, int typeface, int paddingLeft, Bitmap bitmap, LinearLayoutCompat linearLayout) {
         LinearLayoutCompat bitmapLayout = new LinearLayoutCompat(this);
         TextView textView = new TextView(this);
         ParagraphStyle style_para = new LeadingMarginSpan.Standard(0,
@@ -454,7 +331,7 @@ public class Explode extends AppCompatActivity {
         linearLayout.addView(bitmapLayout, params);
     }
 
-    private void addTextToLayout(String text, int typeface, int paddingLeft,
+    private void addTextToLayout(CharSequence text, int typeface, int paddingLeft,
                                  LinearLayoutCompat layout) {
         TextView textView = new TextView(this);
         ParagraphStyle style_para = new LeadingMarginSpan.Standard(0,
@@ -473,8 +350,12 @@ public class Explode extends AppCompatActivity {
         layout.addView(textView, params);
     }
 
-    private void addTextToLayout(String text, int typeface, LinearLayoutCompat layout) {
+    private void addTextToLayout(CharSequence text, int typeface, LinearLayoutCompat layout) {
         addTextToLayout(text, typeface, 0, layout);
+    }
+
+    private void addHtmlToLayout(StringBuilder html, LinearLayoutCompat layout) {
+        addTextToLayout(Html.fromHtml(html.toString()), Typeface.NORMAL,layout);
     }
 
     private void setupVariables() {
@@ -609,19 +490,23 @@ public class Explode extends AppCompatActivity {
 
     private void copyIntentDetails() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        clipboard.setPrimaryClip(ClipData.newPlainText("Intent Details", IntentFormatter.getIntentDetailsString(this, editableIntent, lastResultCode, lastResultIntent)));
+        String intentDetailsString = createIntentFormatter().getIntentDetailsString(editableIntent,
+                IntentHelper.getLastCallingActivity(this),
+                lastResultCode, lastResultIntent);
+        clipboard.setPrimaryClip(ClipData.newPlainText("Intent Details",intentDetailsString));
         Toast.makeText(this, R.string.message_intent_details_copied_to_clipboard,
                 Toast.LENGTH_SHORT).show();
     }
 
+    @NonNull
+    private IntentFormatter createIntentFormatter() {
+        return new IntentFormatterMD(this, "## ");
+    }
+
     private void refreshUI() {
-        // if (!intent.getAction().equals(getIntent().getAction())
-        // || (intent.getDataString() != null && !intent.getDataString()
-        // .equals(getIntent().getDataString()))
-        // || !intent.getType().equals(getIntent().getType())) {
-        //
-        // }
-        checkAndShowMatchingActivities();
+        activitiesLayout.removeAllViews();
+        addHtmlToLayout(guiFormatter.clr().appendMatchingActivities(editableIntent, false), activitiesLayout);
+
         if (shareActionProvider != null) {
             Intent share = createShareIntent();
             shareActionProvider.setShareIntent(share);
@@ -633,7 +518,10 @@ public class Explode extends AppCompatActivity {
     private Intent createShareIntent() {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType(getString(R.string.mime_type_text_plain));
-        share.putExtra(Intent.EXTRA_TEXT, IntentFormatter.getIntentDetailsString(this, editableIntent, lastResultCode, lastResultIntent));
+        String intentDetailsString = createIntentFormatter().getIntentDetailsString(editableIntent,
+                IntentHelper.getLastCallingActivity(this),
+                lastResultCode, lastResultIntent);
+        share.putExtra(Intent.EXTRA_TEXT, intentDetailsString);
         return share;
     }
 

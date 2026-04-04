@@ -3,6 +3,11 @@ This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2002) or later.
 new features:
 
 #40 if available: also show calling activity and activityResult on intent page
+
+enhancement
+
+Status: Open.
+#41 Share text as Formatted Markdown
 #42 intercept speech recognition intents
 
 technical minor changes:
