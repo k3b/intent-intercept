@@ -12,7 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package uk.co.ashtonbrsc.intentexplode;
+package de.k3b.intentintercept;
 
 import android.content.ComponentName;
 import android.content.Intent;
@@ -24,7 +24,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
-import uk.co.ashtonbrsc.android.intentintercept.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -41,7 +40,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     Boolean enabled = (Boolean) newValue;
                     int flag = (enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
                             : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
-                    ComponentName component = new ComponentName(activity, Explode.class);
+                    ComponentName component = new ComponentName(activity, IntentDetailsActivity.class);
 
                     activity.getPackageManager().setComponentEnabledSetting(component, flag,
                             PackageManager.DONT_KILL_APP);

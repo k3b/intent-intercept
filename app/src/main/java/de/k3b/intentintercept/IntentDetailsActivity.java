@@ -13,7 +13,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package uk.co.ashtonbrsc.intentexplode;
+package de.k3b.intentintercept;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -43,7 +43,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import androidx.annotation.NonNull;
@@ -52,7 +51,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.core.view.MenuItemCompat;
 import de.k3b.android.widget.HistoryEditText;
-import uk.co.ashtonbrsc.android.intentintercept.R;
+import de.k3b.intentintercept.R;
 
 //TODO add icon -which icon - app icons???
 //TODO add getCallingActivity() - will only give details for startActivityForResult();
@@ -61,7 +60,7 @@ import uk.co.ashtonbrsc.android.intentintercept.R;
  * Should really be called IntentDetailsActivity but this may cause problems with launcher
  * shortcuts and the enabled/disabled state of interception.
  */
-public class Explode extends AppCompatActivity {
+public class IntentDetailsActivity extends AppCompatActivity {
 
     static final int STANDARD_INDENT_SIZE_IN_DIP = 10;
     static final String INTENT_EDITED = "intent_edited";
@@ -84,7 +83,7 @@ public class Explode extends AppCompatActivity {
                     showResetIntentButton(true);
                     refreshUI();
                 } catch (Exception e) {
-                    Toast.makeText(Explode.this, e.getMessage(),
+                    Toast.makeText(IntentDetailsActivity.this, e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -157,7 +156,7 @@ public class Explode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.guiFormatter = new IntentFormatterHtml(this);
-        setContentView(R.layout.explode);
+        setContentView(R.layout.intent_details);
 
         rememberIntent(getIntent());
 
@@ -588,7 +587,7 @@ public class Explode extends AppCompatActivity {
         refreshUI();
 
         Uri uri = (data == null) ? null : data.getData();
-        Toast.makeText(Explode.this,
+        Toast.makeText(IntentDetailsActivity.this,
                 getString(R.string.last_result_message, getString(R.string.last_result_header_title), "" + requestCode, uri),
                 Toast.LENGTH_LONG).show();
     }

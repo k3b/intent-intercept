@@ -21,7 +21,7 @@
         android:allowBackup="false"
         android:installLocation="auto">
         <activity
-            android:name="uk.co.ashtonbrsc.intentexplode.Explode"
+            android:name="de.k3b.intentintercept.IntentDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="stateUnchanged" >
 			
@@ -361,7 +361,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name="uk.co.ashtonbrsc.intentexplode.StartupActivity" android:exported="true" >
+        <activity android:name="de.k3b.intentintercept.SettingsActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

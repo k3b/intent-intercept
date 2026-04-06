@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1" >
 
-        <RelativeLayout
-            android:id="@+id/intent_details"
+        <RelativeLayout android:id="@+id/intent_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -33,8 +32,8 @@
             -->
 
         <!-- action -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_action"
-                style="@style/TextHeader"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_action"
+               style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
@@ -46,23 +45,23 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_action"
+				android:layout_below="@id/lbl_action"
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_edit_history_description"
 				android:background="@android:drawable/ic_menu_more" />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/action_edit"
+			<de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/action_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_alignParentLeft="true"
 					android:layout_alignParentStart="true"
-					android:layout_below="@+id/lbl_action"
+					android:layout_below="@id/lbl_action"
 					android:layout_toLeftOf="@id/cmd_edit_history"
 					android:layout_toStartOf="@id/cmd_edit_history"
 					android:hint="@string/no_value_text" />
 
         <!-- data -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_data"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_data"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,137 +69,137 @@
 				android:layout_alignParentStart="true"
 				android:minLines="1"
 				android:maxLines="4"
-				android:layout_below="@+id/action_edit"
+				android:layout_below="@id/action_edit"
                 android:text="@string/intent_data_title" />
 			<ImageButton android:id="@+id/cmd_data_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_data"
+				android:layout_below="@id/lbl_data"
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_data_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/data_edit"
+			<de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/data_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/lbl_data"
+				android:layout_below="@id/lbl_data"
 				android:layout_toLeftOf="@id/cmd_data_history"
 				android:layout_toStartOf="@id/cmd_data_history"
 					android:hint="@string/no_value_text" />
 
         <!-- type (mime) -->
-			<uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_type"
+			<de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_type"
 				style="@style/TextHeader"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/data_edit"
+				android:layout_below="@id/data_edit"
 				android:text="@string/intent_mime_type_title" />
 			<ImageButton android:id="@+id/cmd_type_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_type"
+				android:layout_below="@id/lbl_type"
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_type_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/type_edit"
+			<de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/type_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/lbl_type"
+				android:layout_below="@id/lbl_type"
 				android:layout_toLeftOf="@id/cmd_type_history"
 				android:layout_toStartOf="@id/cmd_type_history"
 				android:hint="@string/no_value_text" />
 
         <!-- result -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_result"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_result"
                 style="@style/TextHeader"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/type_edit"
+                android:layout_below="@id/type_edit"
                 android:text="@string/last_result_header_title" />
-            <uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/result_edit"
+            <de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/result_edit"
                 style="@style/EditTextNoSuggestion"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_result"
+                android:layout_below="@id/lbl_result"
                 android:layout_toLeftOf="@id/cmd_type_history"
                 android:layout_toStartOf="@id/cmd_type_history"
                 android:hint="@string/no_value_text" />
         <!-- calling_activity -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_calling_activity"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_calling_activity"
                 style="@style/TextHeader"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/result_edit"
+                android:layout_below="@id/result_edit"
                 android:text="@string/intent_calling_activity_title" />
-            <uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/calling_activity_edit"
+            <de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/calling_activity_edit"
                 style="@style/EditTextNoSuggestion"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/lbl_calling_activity"
+                android:layout_below="@id/lbl_calling_activity"
                 android:layout_toLeftOf="@id/cmd_type_history"
                 android:layout_toStartOf="@id/cmd_type_history"
                 android:hint="@string/no_value_text" />
 
         <!-- uri -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_uri"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_uri"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/calling_activity_edit"
+				android:layout_below="@id/calling_activity_edit"
                 android:text="@string/intent_uri_title" />
 			<ImageButton android:id="@+id/cmd_uri_history"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentEnd="true"
-				android:layout_below="@+id/lbl_uri"
+				android:layout_below="@id/lbl_uri"
 				android:visibility="gone"
                 android:contentDescription="@string/cmd_uri_history_description"
                 android:background="@android:drawable/ic_menu_more"  />
-			<uk.co.ashtonbrsc.intentexplode.widget.BlockEnterEditText android:id="@+id/uri_edit"
+			<de.k3b.intentintercept.widget.BlockEnterEditText android:id="@+id/uri_edit"
 					style="@style/EditTextNoSuggestion"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/lbl_uri"
+				android:layout_below="@id/lbl_uri"
 				android:layout_toLeftOf="@id/cmd_uri_history"
 				android:layout_toStartOf="@id/cmd_uri_history"
 				android:hint="@string/no_value_text" />
 
         <!-- categories -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/intent_categories_header"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/intent_categories_header"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/uri_edit"
+				android:layout_below="@id/uri_edit"
                 android:text="@string/intent_categories_title" />
             <androidx.appcompat.widget.LinearLayoutCompat android:id="@+id/intent_categories_layout"
                 style="@style/ListLayout"
@@ -208,48 +207,46 @@
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/intent_categories_header"
+				android:layout_below="@id/intent_categories_header"
                 android:orientation="vertical" />
 
         <!-- flags -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_flags"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_flags"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/intent_categories_layout"
+				android:layout_below="@id/intent_categories_layout"
                 android:text="@string/intent_flags_title" />
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/intent_flags_layout"
+            <androidx.appcompat.widget.LinearLayoutCompat android:id="@+id/intent_flags_layout"
                 style="@style/ListLayout"
                 android:layout_width="match_parent"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/lbl_flags"
+				android:layout_below="@id/lbl_flags"
                 android:layout_height="wrap_content" />
 
         <!-- extras -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/lbl_extras"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/lbl_extras"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/intent_flags_layout"
+				android:layout_below="@id/intent_flags_layout"
                 android:text="@string/intent_extras_title" />
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/intent_extras_layout"
+            <androidx.appcompat.widget.LinearLayoutCompat android:id="@+id/intent_extras_layout"
                 style="@style/ListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/lbl_extras"
+				android:layout_below="@id/lbl_extras"
                 android:orientation="vertical" />
 
         <!-- matching_activities -->
-            <uk.co.ashtonbrsc.intentexplode.widget.UnderlinedTextView android:id="@+id/intent_matching_activities_header"
+            <de.k3b.intentintercept.widget.UnderlinedTextView android:id="@+id/intent_matching_activities_header"
                 style="@style/TextHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -257,23 +254,21 @@
 				android:layout_alignParentStart="true"
 				android:layout_below="@+id/intent_extras_layout"
                 android:text="@string/intent_matching_activities_title" />
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/intent_matching_activities_layout"
+            <androidx.appcompat.widget.LinearLayoutCompat android:id="@+id/intent_matching_activities_layout"
                 style="@style/ListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/intent_matching_activities_header"
+				android:layout_below="@id/intent_matching_activities_header"
                 android:orientation="vertical" />
 
-            <TextView
-                android:id="@+id/text"
+            <TextView android:id="@+id/text"
                 style="@style/ListLayout"
                 android:layout_width="match_parent"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
-				android:layout_below="@+id/intent_matching_activities_layout"
+				android:layout_below="@id/intent_matching_activities_layout"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
     </ScrollView>
@@ -285,8 +280,7 @@
         android:layout_weight="0"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/reset_intent_button"
+        <Button android:id="@+id/reset_intent_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -294,8 +288,7 @@
             android:text="@string/button_title_reset_intent"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/resend_intent_button"
+        <Button android:id="@+id/resend_intent_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

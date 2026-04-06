@@ -1,7 +1,7 @@
 // Code from slide 64 at
 // https://speakerdeck.com/u/cyrilmottier/p/optimizing-android-ui-pro-tips-for-creating-smooth-and-responsive-apps
 
-package uk.co.ashtonbrsc.intentexplode.widget;
+package de.k3b.intentintercept.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,4 +1,4 @@
-package uk.co.ashtonbrsc.intentexplode;
+package de.k3b.intentintercept;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import uk.co.ashtonbrsc.android.intentintercept.R;
 
 /**
  * Class to format an Intent.

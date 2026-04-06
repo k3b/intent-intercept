@@ -1,4 +1,4 @@
-package uk.co.ashtonbrsc.intentexplode;
+package de.k3b.intentintercept;
 
 import android.content.Context;
 
