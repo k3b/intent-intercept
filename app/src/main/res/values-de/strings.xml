@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Intent Abfänger</string>
-
     <string name="menu_copy_title">Kopieren</string>
     <string name="menu_share_title">Teilen</string>
+    <string name="menu_settings_title">Einstellungen</string>
 
     <string name="settings_license_title">Lizenz</string>
     <string name="settings_view_source_code_summary">Den \'Intent Abfänger\'-Quellcode auf GitHub ansehen</string>
@@ -12,6 +11,9 @@
     <string name="settings_send_test_intent_summary">Hier tippen, und dann \'Intent Abfänger\' von der Liste auswählen</string>
     <string name="settings_view_source_code_title">Quellcode ansehen</string>
     <string name="settings_report_issue_title">Fehler melden</string>
+
+    <string name="settings_version_title">Version</string>
+    <string name="settings_report_matching_activities_enable_title">Report mit \'Aufrufbare Activities\'</string>
 
     <string name="button_title_reset_intent">Intent zurücksetzen</string>
     <string name="button_title_resend_intent">Intent senden</string>
@@ -30,7 +32,7 @@
     <string name="extra_item_value_title">Wert:</string>
     <string name="extra_item_value_title_unescaped">Wert (decoded):</string>
     <string name="extra_item_type_name_title">Typ:</string>
-    <string name="intent_matching_activities_title">AUFRUFBARE ACTIVITIES</string>
+    <string name="intent_matching_activities_title">Aufrufbare Activities</string>
     <string name="last_result_code_title">resultCode:</string>
 
     <string name="cmd_edit_history_description">Vorherige edit Werte</string>

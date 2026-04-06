@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import de.k3b.GuiUtil;
+
 /**
  * Class to format an Intent.
  * All Intent-Domain specific knowledge like flags, Action, .... is inside this class;
@@ -28,9 +30,11 @@ public class IntentFormatter extends BaseFormatter {
     protected static final int MAX_TEXT_LEN = 128;
     /** maximum number of subitem in array or bundle. If there are more subitem the list will be truncated */
     private static final int MAX_LIST_COUNT = 20;
+    private final boolean withMatchingActivities;
 
-    public IntentFormatter(Context context) {
+    public IntentFormatter(Context context, boolean withMatchingActivities) {
         super(context);
+        this.withMatchingActivities = withMatchingActivities;
     }
 
     public String getIntentDetailsString(Intent editableIntent,
@@ -62,10 +66,13 @@ public class IntentFormatter extends BaseFormatter {
         appendIntentDetails(editableIntent, true)
                 .append(getNEW_SEGMENT());
 
-        appendMatchingActivities(editableIntent, true);
+        if (withMatchingActivities) appendMatchingActivities(editableIntent, true);
 
         // close last Header
         this.appendHeader(0);
+
+        result.append(getNEWLINE());
+        result.append(GuiUtil.getAppVersionName(context, R.string.report_app_version)).append(getNEWLINE());
 
         return this.result.toString();
     }

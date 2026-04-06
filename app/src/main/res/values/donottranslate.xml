@@ -3,6 +3,8 @@
     resources that should NOT be localized and are version independant
 -->
 <resources>
+    <string name="app_name" translatable="false">Intent Intercept</string>
+
     <string name="settings_license_summary" translatable="false">Apache License, Version 2.0</string>
     <string name="no_value_text" translatable="false">null</string>
     <string name="last_result_message" translatable="false">%s: %s (%s)</string>
@@ -19,4 +21,10 @@
 
     <string name="pref_send_test_intent" translatable="false">sendTestIntent</string>
     <string name="pref_intercept_enabled" translatable="false">interceptEnabled</string>
+    <string name="pref_version" translatable="false">pref_version</string>
+
+    <string name="pref_report_matching_activities_enabled" translatable="false">pref_report_matching_activities_enabled</string>
+
+    <string name="app_version" translatable="false">%2$s(%3$s)</string>
+    <string name="report_app_version" translatable="false">Created with [%1$s](https://github.com/k3b/intent-intercept) version %2$s(%3$s)</string>
 </resources>

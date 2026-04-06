@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 public class IntentFormatterMDColapsable extends IntentFormatterMD{
     private boolean insideHeader = false;
 
-    public IntentFormatterMDColapsable(Context context) {
-        super(context, "");
+    public IntentFormatterMDColapsable(Context context, boolean withMatchingActivities) {
+        super(context, withMatchingActivities, "");
     }
 
     @NonNull

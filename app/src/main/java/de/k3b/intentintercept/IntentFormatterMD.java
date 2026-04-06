@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
  */
 public class IntentFormatterMD extends IntentFormatter {
     private final String headerPrefix;
-    public IntentFormatterMD(Context context, String headerPrefix) {
-        super(context);
+    public IntentFormatterMD(Context context, boolean reportWithMatchingActivities, String headerPrefix) {
+        super(context, reportWithMatchingActivities);
         this.headerPrefix = headerPrefix;
     }
 

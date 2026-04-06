@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:key="@string/pref_version"
+        android:title="@string/settings_version_title">
+    </Preference>
+
     <SwitchPreferenceCompat
         android:defaultValue="true"
         android:key="@string/pref_intercept_enabled"
         android:title="@string/settings_enable_intent_intercept_title" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="@string/pref_report_matching_activities_enabled"
+        android:title="@string/settings_report_matching_activities_enable_title" />
+
 
     <Preference
         android:key="@string/pref_send_test_intent"

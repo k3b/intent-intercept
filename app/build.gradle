@@ -23,8 +23,8 @@ android {
         // 4.0.6 (406) 2024-02-14. added whatsapp specific intents; build/Lib updates
         // 4.0.7 (407) 2025-06-22. added missing intents from https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-mainline-media-release/core/java/android/provider/MediaStore.java
         // 4.1???? Breaking changes: Renamed Activities/gui-resources
-        versionCode 407
-        versionName '4.0.7'
+        versionCode 408
+        versionName '4.1.8'
     }
     buildTypes {
         release {

@@ -51,7 +51,6 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.core.view.MenuItemCompat;
 import de.k3b.android.widget.HistoryEditText;
-import de.k3b.intentintercept.R;
 
 //TODO add icon -which icon - app icons???
 //TODO add getCallingActivity() - will only give details for startActivityForResult();
@@ -64,6 +63,8 @@ public class IntentDetailsActivity extends AppCompatActivity {
 
     static final int STANDARD_INDENT_SIZE_IN_DIP = 10;
     static final String INTENT_EDITED = "intent_edited";
+    public static final int REQUEST_CODE_RESEND = 1; // resend edited intend
+    public static final int REQUEST_CODE_SETTINGS = 2; // call settings activity
 
     private abstract class IntentUpdateTextWatcher implements TextWatcher {
         private final TextView textView;
@@ -155,7 +156,7 @@ public class IntentDetailsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.guiFormatter = new IntentFormatterHtml(this);
+        this.guiFormatter = new IntentFormatterHtml(this, false);
         setContentView(R.layout.intent_details);
 
         rememberIntent(getIntent());
@@ -389,7 +390,7 @@ public class IntentDetailsActivity extends AppCompatActivity {
         resendIntentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSendIntent(v);
+                onCmdResendIntent(v);
             }
         });
 
@@ -464,12 +465,23 @@ public class IntentDetailsActivity extends AppCompatActivity {
         resetIntentButton.setVisibility((visible) ? View.VISIBLE : View.GONE);
     }
 
-    public void onSendIntent(View v) {
+    private void onCmdResendIntent(View v) {
         try {
             Intent startIntent = IntentHelper.cloneIntent(IntentHelper.getUri(editableIntent), additionalExtras);
             startIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            startActivityForResult(Intent.createChooser(startIntent, resendIntentButton.getText()), 1);
+            startActivityForResult(Intent.createChooser(startIntent, resendIntentButton.getText()), REQUEST_CODE_RESEND);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void onCmdSettings() {
+        try {
+            Intent startIntent = new Intent(this, SettingsActivity.class);
+
+            startActivityForResult(startIntent,REQUEST_CODE_SETTINGS);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -487,7 +499,7 @@ public class IntentDetailsActivity extends AppCompatActivity {
         refreshUI();
     }
 
-    private void copyIntentDetails() {
+    private void onCmdCopyIntentDetails() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         String intentDetailsString = createIntentFormatter().getIntentDetailsString(editableIntent,
                 IntentHelper.getLastCallingActivity(this),
@@ -499,7 +511,8 @@ public class IntentDetailsActivity extends AppCompatActivity {
 
     @NonNull
     private IntentFormatter createIntentFormatter() {
-        return new IntentFormatterMD(this, "## ");
+        Settings settings = new Settings(this);
+        return new IntentFormatterMD(this, settings.reportWithMatchingActivities() , "## ");
     }
 
     private void refreshUI() {
@@ -546,7 +559,9 @@ public class IntentDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_copy) {
-            copyIntentDetails();
+            onCmdCopyIntentDetails();
+        } else if (item.getItemId() == R.id.menu_settings) {
+            onCmdSettings();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -581,15 +596,21 @@ public class IntentDetailsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.lastResultCode = resultCode;
         this.lastResultIntent = data;
-        super.onActivityResult(requestCode, resultCode, data);
-        setResult(resultCode, data);
+        if (requestCode == REQUEST_CODE_SETTINGS) {
+            super.onActivityResult(requestCode, resultCode, data);
+            refreshUI();
+        } else {
+            // reply from resend
+            super.onActivityResult(requestCode, resultCode, data);
+            setResult(resultCode, data);
 
-        refreshUI();
+            refreshUI();
 
-        Uri uri = (data == null) ? null : data.getData();
-        Toast.makeText(IntentDetailsActivity.this,
-                getString(R.string.last_result_message, getString(R.string.last_result_header_title), "" + requestCode, uri),
-                Toast.LENGTH_LONG).show();
+            Uri uri = (data == null) ? null : data.getData();
+            Toast.makeText(IntentDetailsActivity.this,
+                    getString(R.string.last_result_message, getString(R.string.last_result_header_title), "" + requestCode, uri),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
 }

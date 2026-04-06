@@ -1,15 +1,14 @@
 <resources>
-    <string name="app_name">Intent Intercept</string>
-
     <string name="menu_share_title">Share</string>
     <string name="menu_copy_title">Copy</string>
+    <string name="menu_settings_title">Settings</string>
 
     <string name="button_title_resend_intent">Resend Intent</string>
     <string name="button_title_reset_intent">Reset Intent</string>
 
     <string name="message_intent_details_copied_to_clipboard">Intent details copied to clipboard.</string>
+
     <string name="settings_enable_intent_intercept_title">Enable interception</string>
-    <string name="intent_filter_label">Intercept the Intent</string>
     <string name="settings_send_test_intent_title">Send Test Intent</string>
     <string name="settings_send_test_intent_summary">Tap this then select Intent Intercept from list</string>
     <string name="settings_view_source_code_title">View Source Code</string>
@@ -17,7 +16,12 @@
     <string name="settings_report_issue_title">Report issue</string>
     <string name="settings_report_issue_summary">View issue tracker on Github</string>
     <string name="settings_license_title">Licence</string>
-    <string name="intent_matching_activities_title">MATCHING ACTIVITIES:</string>
+
+    <string name="settings_version_title">Version</string>
+    <string name="settings_report_matching_activities_enable_title">Report with \'Matching Activities\'</string>
+
+    <string name="intent_filter_label">Intercept the Intent</string>
+    <string name="intent_matching_activities_title">Matching Activities:</string>
     <string name="button_title_send_edited_intent">Send Edited Intent</string>
 
     <string name="send_test_intent_chooser_title">Select \'Intercept the Intent\'</string>

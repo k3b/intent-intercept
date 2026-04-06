@@ -25,12 +25,18 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import de.k3b.GuiUtil;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
         final FragmentActivity activity = requireActivity();
+
+        final Preference versionPreference = findPreference(activity.getString(R.string.pref_version));
+        versionPreference.setSummary(GuiUtil.getAppVersionName(activity, R.string.app_version));
+
         final SwitchPreferenceCompat interceptEnabledPreference = findPreference(activity.getString(R.string.pref_intercept_enabled));
         interceptEnabledPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
