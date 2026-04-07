@@ -84,6 +84,17 @@ public class BaseFormatter {
     }
 
     @NonNull
+    protected  String getunformat_START() {
+        return "";
+    }
+
+    @NonNull
+    protected  String getunformat_END() {
+        return "";
+    }
+
+
+    @NonNull
     @Override
     public  String toString() {
         return result.toString();

@@ -275,14 +275,6 @@ public class IntentDetailsActivity extends AppCompatActivity {
         if (textViewToIgnore != edType) edType.setText(editableIntent.getType());
         if (textViewToIgnore != edUri) edUri.setText(IntentHelper.getUri(editableIntent));
 
-        if (textViewToIgnore != edResult) {
-            String resultString = this.lastResultCode + " " + IntentHelper.getUri(this.lastResultIntent);
-            int visible = (this.lastResultIntent != null) ? View.VISIBLE : View.GONE;
-            edResult.setVisibility(visible);
-            lblResult.setVisibility(visible);
-            edResult.setText(resultString);
-        }
-
         if (textViewToIgnore != edCallingActivity) {
             ComponentName lastCallingActivity = IntentHelper.getLastCallingActivity(this);
             String callingActivityString = null;
@@ -440,15 +432,6 @@ public class IntentDetailsActivity extends AppCompatActivity {
                 showAllIntentData(edUri);
             }
         });
-        edResult.addTextChangedListener(new IntentUpdateTextWatcher(edResult) {
-            @Override
-            protected void onUpdateIntent(String modifiedContent) {
-                // no error yet so continue
-                editableIntent = IntentHelper.cloneIntent(modifiedContent, additionalExtras);
-                // this time must update all content since extras/flags may have been changed
-                showAllIntentData(edResult);
-            }
-        });
         edCallingActivity.addTextChangedListener(new IntentUpdateTextWatcher(edCallingActivity) {
             @Override
             protected void onUpdateIntent(String modifiedContent) {
@@ -516,6 +499,24 @@ public class IntentDetailsActivity extends AppCompatActivity {
     }
 
     private void refreshUI() {
+        int visible = View.GONE;
+
+        if (this.lastResultCode != null) {
+            visible = View.VISIBLE;
+
+            String uri = guiFormatter.getUri(this.lastResultIntent);
+            String resultString;
+            if (uri != null) {
+                resultString = this.lastResultCode + " " + Html.fromHtml(uri);
+            } else {
+                resultString = "" + this.lastResultCode;
+            }
+
+            edResult.setText(resultString);
+        }
+        edResult.setVisibility(visible);
+        lblResult.setVisibility(visible);
+
         activitiesLayout.removeAllViews();
         addHtmlToLayout(guiFormatter.clr().appendMatchingActivities(editableIntent, false), activitiesLayout);
 
@@ -594,12 +595,12 @@ public class IntentDetailsActivity extends AppCompatActivity {
     // to caller of this activity {OriginatorActivity}.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        this.lastResultCode = resultCode;
-        this.lastResultIntent = data;
         if (requestCode == REQUEST_CODE_SETTINGS) {
             super.onActivityResult(requestCode, resultCode, data);
             refreshUI();
         } else {
+            this.lastResultCode = resultCode;
+            this.lastResultIntent = data;
             // reply from resend
             super.onActivityResult(requestCode, resultCode, data);
             setResult(resultCode, data);

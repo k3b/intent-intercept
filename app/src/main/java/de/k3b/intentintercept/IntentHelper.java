@@ -72,7 +72,11 @@ public class IntentHelper {
     }
 
     static String getUri(Intent src) {
-        return (src != null) ? src.toUri(Intent.URI_INTENT_SCHEME) : null;
+        String result = null;
+        if (src != null) {
+            result = src.toUri(Intent.URI_INTENT_SCHEME);
+        }
+        return result;
     }
 
     static private ComponentName toComponentName(Object o) {

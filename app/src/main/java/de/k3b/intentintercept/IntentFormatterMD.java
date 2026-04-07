@@ -35,6 +35,16 @@ public class IntentFormatterMD extends IntentFormatter {
         return "**";
     }
 
+    @NonNull @Override
+    protected  String getunformat_START() {
+        return " `";
+    }
+
+    @NonNull  @Override
+    protected  String getunformat_END() {
+        return " `";
+    }
+
     @NonNull
     @Override
     protected String getNEWLINE() {

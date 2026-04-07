@@ -42,8 +42,10 @@ public class IntentFormatter extends BaseFormatter {
                                                  Integer lastResultCode, Intent lastResultIntent) {
         // k3b so intent can be reloaded using
         // Intent.parseUri("Intent:....", Intent.URI_INTENT_SCHEME)
-        String uri = getUri(editableIntent);
-        this.result.append(uri)
+        this.result
+                .append(getunformat_START())
+                .append(getUri(editableIntent))
+                .append(getunformat_END())
                 .append(getNEWLINE())
                 .append(getNEW_SEGMENT());
 
@@ -59,7 +61,12 @@ public class IntentFormatter extends BaseFormatter {
             this.appendNameValue(R.string.last_result_code_title, lastResultCode);
 
             if (lastResultIntent != null) {
-                appendIntentDetails(lastResultIntent, false);
+                IntentFormatter nestedFormatter = new IntentFormatterMD(context, false, "### ");
+                nestedFormatter.appendIntentDetails(lastResultIntent, false);
+                nestedFormatter.appendHeader(0);
+
+                this.result.append(nestedFormatter.toString());
+                appendHeader(0);
             }
         }
 
@@ -78,9 +85,12 @@ public class IntentFormatter extends BaseFormatter {
     }
 
     @NonNull
-    private String getUri(Intent editableIntent) {
+    public String getUri(Intent editableIntent) {
         String uri = IntentHelper.getUri(editableIntent);
-        uri = uri.replace(";",";"+getNEWLINE());
+        if (uri != null) {
+            uri = uri.replace(";", ";" + getNEWLINE())
+                    + getNEWLINE();
+        }
         return uri;
     }
 
