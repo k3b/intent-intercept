@@ -22,9 +22,12 @@ android {
         // 4.0.5 (405) 2023-04-06. added url-decoded; added Support for SAF (OPEN_DOCUMENT, CREATE_DOCUMENT, OPEN_DOCUMENT_TREE); Gradle7.5
         // 4.0.6 (406) 2024-02-14. added whatsapp specific intents; build/Lib updates
         // 4.0.7 (407) 2025-06-22. added missing intents from https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android10-mainline-media-release/core/java/android/provider/MediaStore.java
-        // 4.1???? Breaking changes: Renamed Activities/gui-resources
+        // 4.1???? Breaking changes: Renamed Namespaces and Activity names: Explode(Activity) -> IntentDetails(Activity); StartupActivity -> SettingsActivity;
+        // 4.1.0 (408) 2026-04-20. added: calling activity+activityResult; Share as Formatted Markdown; Settings Menü;
+        //      intercept speech recognition intents
+        //      gradle-8.14.4; build: com.android.application' 8.1.4
         versionCode 408
-        versionName '4.1.8'
+        versionName '4.1.0'
     }
     buildTypes {
         release {
