@@ -50,6 +50,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.core.view.MenuItemCompat;
+
+import de.k3b.GuiUtil;
 import de.k3b.android.widget.HistoryEditText;
 
 //TODO add icon -which icon - app icons???
@@ -504,9 +506,14 @@ public class IntentDetailsActivity extends AppCompatActivity {
         if (this.lastResultCode != null) {
             visible = View.VISIBLE;
 
-            String uri = guiFormatter.getUri(this.lastResultIntent);
+            String uri = guiFormatter.getUri(this.lastResultIntent, false);
             String resultString;
             if (uri != null) {
+                if (uri.contains("%")) {
+                    uri += guiFormatter.getNEWLINE()
+                            + guiFormatter.getNEWLINE()
+                            + guiFormatter.getUri(this.lastResultIntent, true);
+                }
                 resultString = this.lastResultCode + " " + Html.fromHtml(uri);
             } else {
                 resultString = "" + this.lastResultCode;
@@ -531,10 +538,15 @@ public class IntentDetailsActivity extends AppCompatActivity {
     private Intent createShareIntent() {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType(getString(R.string.mime_type_text_plain));
-        String intentDetailsString = createIntentFormatter().getIntentDetailsString(editableIntent,
-                IntentHelper.getLastCallingActivity(this),
+        IntentFormatter formatter = createIntentFormatter();
+        ComponentName lastCallingActivity = IntentHelper.getLastCallingActivity(this);
+        String intentDetailsString = formatter.getIntentDetailsString(editableIntent,
+                lastCallingActivity,
                 lastResultCode, lastResultIntent);
         share.putExtra(Intent.EXTRA_TEXT, intentDetailsString);
+        String subject = formatter.getTitle(editableIntent, lastCallingActivity, GuiUtil.getDateAsString());
+        share.putExtra(Intent.EXTRA_SUBJECT, subject);
+        share.putExtra(Intent.EXTRA_TITLE, subject);
         return share;
     }
 
@@ -563,6 +575,8 @@ public class IntentDetailsActivity extends AppCompatActivity {
             onCmdCopyIntentDetails();
         } else if (item.getItemId() == R.id.menu_settings) {
             onCmdSettings();
+        } else if (item.getItemId() == R.id.menu_close) {
+            this.finish();
         }
         return super.onOptionsItemSelected(item);
     }

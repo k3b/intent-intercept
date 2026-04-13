@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_close"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        app:showAsAction="ifRoom"
+        android:title="@android:string/cancel">
+    </item>
+    <item
         android:id="@+id/menu_copy"
         android:icon="@drawable/ic_action_content_copy"
         app:showAsAction="ifRoom"

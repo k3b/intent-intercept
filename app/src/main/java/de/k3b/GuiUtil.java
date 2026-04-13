@@ -25,6 +25,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import de.k3b.intentintercept.R;
 
 /**
@@ -35,12 +39,20 @@ public class GuiUtil {
     public static String getAppVersionName(final Context context, @StringRes int resourceId) {
         try {
 
+            String date = getDateAsString();
             PackageInfo packageInfo = context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), 0);
-            return context.getString(resourceId,context.getString(R.string.app_name), packageInfo.versionName, packageInfo.versionCode);
+            return context.getString(resourceId,context.getString(R.string.app_name), packageInfo.versionName, packageInfo.versionCode, date);
         } catch (final NameNotFoundException e) {
+            e.printStackTrace();
         }
         return "?";
+    }
+
+    @NonNull
+    public static String getDateAsString() {
+        String date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(new Date());
+        return date;
     }
 
 }

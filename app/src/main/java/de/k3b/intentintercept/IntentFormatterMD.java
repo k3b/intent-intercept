@@ -17,10 +17,10 @@ public class IntentFormatterMD extends IntentFormatter {
 
     @NonNull
     @Override
-    protected StringBuilder appendHeader(int keyId) {
-        if (keyId != 0) {
+    protected StringBuilder appendHeader(String headerText) {
+        if (headerText != null) {
             result.append(headerPrefix);
-            super.appendHeader(keyId);
+            super.appendHeader(headerText);
         }
         return result;
     }

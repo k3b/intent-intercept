@@ -43,7 +43,15 @@ public class BaseFormatter {
     @NonNull
     protected StringBuilder appendHeader(int keyId) {
         if (keyId != 0) {
-            result.append(getBOLD_START()).append(context.getString(keyId)).append(getBOLD_END_NL());
+            appendHeader(context.getString(keyId));
+        }
+        return result;
+    }
+
+    @NonNull
+    protected StringBuilder appendHeader(String headerText) {
+        if (headerText != null) {
+            result.append(getBOLD_START()).append(headerText).append(getBOLD_END_NL());
         }
         return result;
     }

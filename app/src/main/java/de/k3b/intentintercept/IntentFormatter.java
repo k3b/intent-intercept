@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.k3b.GuiUtil;
+import de.k3b.StringUtil;
 
 /**
  * Class to format an Intent.
@@ -40,14 +42,23 @@ public class IntentFormatter extends BaseFormatter {
     public String getIntentDetailsString(Intent editableIntent,
                                                  ComponentName callingActivity,
                                                  Integer lastResultCode, Intent lastResultIntent) {
+        this.appendHeader(getTitle(editableIntent, callingActivity, GuiUtil.getDateAsString()));
+
         // k3b so intent can be reloaded using
         // Intent.parseUri("Intent:....", Intent.URI_INTENT_SCHEME)
+        String uri = getUri(editableIntent, false);
         this.result
                 .append(getunformat_START())
-                .append(getUri(editableIntent))
-                .append(getunformat_END())
-                .append(getNEWLINE())
-                .append(getNEW_SEGMENT());
+                .append(uri);
+        if (uri != null && uri.contains("%")) {
+            this.result
+                    .append(getNEWLINE())
+                    .append(getNEWLINE())
+                    .append(getUri(editableIntent, true));
+        }
+        result.append(getunformat_END())
+                .append(getNEWLINE());
+        result.append(getNEW_SEGMENT());
 
         // #40 support for callingActivity
         if (callingActivity != null) {
@@ -63,7 +74,7 @@ public class IntentFormatter extends BaseFormatter {
             if (lastResultIntent != null) {
                 IntentFormatter nestedFormatter = new IntentFormatterMD(context, false, "### ");
                 nestedFormatter.appendIntentDetails(lastResultIntent, false);
-                nestedFormatter.appendHeader(0);
+                nestedFormatter.appendHeader(0).append("---").append(nestedFormatter.getNEWLINE());
 
                 this.result.append(nestedFormatter.toString());
                 appendHeader(0);
@@ -84,13 +95,55 @@ public class IntentFormatter extends BaseFormatter {
         return this.result.toString();
     }
 
-    @NonNull
-    public String getUri(Intent editableIntent) {
-        String uri = IntentHelper.getUri(editableIntent);
-        if (uri != null) {
-            uri = uri.replace(";", ";" + getNEWLINE())
-                    + getNEWLINE();
+    public String getTitle(Intent intent, ComponentName callingActivity, String date) {
+        String appName = null;
+        String activityName = null;
+        String action = null;
+        String type = null;
+        String subject = null;
+        if (callingActivity != null) {
+            appName = StringUtil.getLast(callingActivity.getPackageName(), 4, 20);
+            activityName = StringUtil.getLast(callingActivity.getClassName(), 4, 20);
         }
+
+        if (intent != null) {
+            action = intent.getAction();
+            type = intent.getType();
+            if (intent.getExtras() != null) {
+                subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                if (subject == null) subject = intent.getStringExtra(Intent.EXTRA_TITLE);
+                if (subject == null) subject = intent.getStringExtra("eventTitle");
+
+            }
+        }
+        return StringUtil.append(" ", appName, activityName,
+                StringUtil.getLast(action,1,50),
+                type, StringUtil.trim(subject,4,20), date);
+    }
+
+    @NonNull
+    public String getUri(Intent intent, boolean urlDecode) {
+        return getUri(IntentHelper.getUri(intent), urlDecode);
+    }
+
+    @NonNull
+    public String getUri(Uri uri, boolean urlDecode) {
+        return getUri(uri == null ? null : uri.toString(), urlDecode);
+    }
+
+    @NonNull
+    public String getUri(String uri_, boolean urlDecode) {
+        String uri = uri_;
+        if (uri != null) {
+            if (urlDecode && uri.contains("%")) {
+                uri = IntentHelper.urlDecode(IntentHelper.urlDecode(uri));
+            }
+            String newline = getNEWLINE();
+            uri = uri.replace(";", ";" + newline)
+                    + newline;
+        }
+
+
         return uri;
     }
 
@@ -133,9 +186,15 @@ public class IntentFormatter extends BaseFormatter {
     private StringBuilder appendIntentDetails(Intent intent, boolean detailed) {
         if (detailed) this.appendNameValue(R.string.intent_action_title, intent.getAction());
 
-        this.appendNameValue(R.string.intent_data_title, intent.getData());
+        String uri = getUri(intent.getData(), false);
+        this.appendNameValue(R.string.intent_data_title, uri);
+        if (uri != null && uri.contains("%")) this.appendNameValue(R.string.intent_data_title, getUri(intent.getData(), true));
+
         this.appendNameValue(R.string.intent_mime_type_title, intent.getType());
-        this.appendNameValue(R.string.intent_uri_title, getUri(intent));
+
+        uri =getUri(intent, false);
+        this.appendNameValue(R.string.intent_uri_title, uri);
+        if (uri != null && uri.contains("%")) this.appendNameValue(R.string.intent_uri_title, getUri(intent, true));
 
         appendCategories(intent, true);
 

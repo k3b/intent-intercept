@@ -3,18 +3,17 @@ This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2002) or later.
 new features:
 
 #40 if available: also show calling activity and activityResult on intent page
+#41 Share text as Formatted Markdown
 
-enhancements
+# enhancements
 
+#42 intercept speech recognition intents
 #39 Add Settings Menu with
     * AppVersion
     * Report with(out) 'Matching Activities'
-#40 Add support for Calling Activity Info
-#41 Share text as Formatted Markdown
-#42 intercept speech recognition intents
 
 
-technical minor changes:
+# technical minor changes:
 
 build: changed from gradle-8.0 to gradle-8.14.4
 build: com.android.application' version from 8.1.1 to 8.1.4
@@ -22,5 +21,5 @@ build: com.android.application' version from 8.1.1 to 8.1.4
 usability: added contentDescription to imagebuttons
 
 replaced deprecated declarative <Button android:onClick...> with coding setOnClickListener
-fixed typos
 
+fixed typos

@@ -26,5 +26,5 @@
     <string name="pref_report_matching_activities_enabled" translatable="false">pref_report_matching_activities_enabled</string>
 
     <string name="app_version" translatable="false">%2$s(%3$s)</string>
-    <string name="report_app_version" translatable="false">Created with [%1$s](https://github.com/k3b/intent-intercept) version %2$s(%3$s)</string>
+    <string name="report_app_version" translatable="false">Created with [%1$s](https://github.com/k3b/intent-intercept) version %2$s(%3$s) on %4$s</string>
 </resources>
