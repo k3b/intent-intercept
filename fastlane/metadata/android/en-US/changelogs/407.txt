@@ -1,4 +1,4 @@
-This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2002) or later.
+This apk requires minSdk-16=Android-4.1=JELLY_BEAN (released in 2012) or later.
 
 Changes:
 
